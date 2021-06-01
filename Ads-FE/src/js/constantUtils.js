@@ -1,5 +1,5 @@
 // Url
-export const url = "http://localhost:8080/CPM-0.0.1";
+export const url = "http://103.110.86.150:8080/CPM-0.0.1";
 export const pathAuthen = "/authenticate";
 export const urlFb = "https://graph.facebook.com/v10.0/";
 
