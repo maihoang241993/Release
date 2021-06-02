@@ -1,12 +1,10 @@
 // Url
-export const url = "http://103.110.86.150:8080/CPM-0.0.1";
-export const pathAuthen = "/authenticate";
-export const urlFb = "https://graph.facebook.com/v10.0/";
+// Server
+export const API_URL = 'http://103.110.86.150:8080/CPM-0.0.1/api/';
+// local
+// export const API_URL = 'http://localhost:8080/api/';
 
-export const user = "hoangmv2";
-export const pass = "password";
-
-export const userToken = "token";
+export const FB_URL = "https://graph.facebook.com/v10.0/";
 
 //Facebook
 export const paramFb = {

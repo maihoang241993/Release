@@ -46,6 +46,9 @@
           <CIcon name="cil-envelope-open"/>
         </CHeaderNavLink>
       </CHeaderNavItem>
+      <CHeaderNavItem class="d-md-down-none mx-2">
+        <span>{{username}}</span>
+      </CHeaderNavItem>
       <TheHeaderDropdownAccnt/>
     </CHeaderNav>
     <CSubheader class="px-3">
@@ -59,6 +62,14 @@ import TheHeaderDropdownAccnt from './TheHeaderDropdownAccnt'
 
 export default {
   name: 'TheHeader',
+  data() {
+    return {
+      username: null
+    }
+  },
+  created() {
+    this.username = JSON.parse(localStorage.getItem("user")).username
+  },
   components: {
     TheHeaderDropdownAccnt
   }

@@ -60,24 +60,38 @@ const Users = () => import('@/views/users/Users')
 const User = () => import('@/views/users/User')
 
 // WorkingSpace
-const SampleOne = () => import('@/views/screen/scans/SampleOne')
+const SampleOne = () => import('@/views/screen/ads/SampleOne')
 
 
 Vue.use(VueAxios,axios)
 Vue.use(Router)
 
-export default new Router({
-  mode: 'hash', // https://router.vuejs.org/api/#mode
+export const router = new Router({
+  mode: 'history', // https://router.vuejs.org/api/#mode
   linkActiveClass: 'active',
   scrollBehavior: () => ({ y: 0 }),
   routes: configRoutes()
+})
+
+router.beforeEach((to, from, next) => {
+  const publicPages = ['/pages/login', '/pages/register'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = localStorage.getItem('user');
+
+  // trying to access a restricted page + not logged in
+  // redirect to login page
+  if (authRequired && !loggedIn) {
+    next('pages/login');
+  } else {
+    next();
+  }
 })
 
 function configRoutes () {
   return [
     {
       path: '/',
-      redirect: '/dashboard',
+      redirect: 'Dashboard',
       name: 'Home',
       component: TheContainer,
       children: [
