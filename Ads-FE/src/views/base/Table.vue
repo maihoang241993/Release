@@ -21,7 +21,7 @@
         :clickableRows="clickableRows"
         v-on:row-clicked="rowClicked"
       >
-        <td slot="idBm" slot-scope="{ item }" class="container">
+        <td slot="idBm" slot-scope="{ item }" class="containerHover">
           <div class="c-avatar" style="float: left">
             <img :src="item.idBm.url" class="c-avatar-img" alt="" />
             <span
@@ -94,12 +94,12 @@ export default {
 </script>
 
 <style>
-.container {
+.containerHover {
   position: relative;
-  width: 50%;
+  width: auto;
   max-width: 300px;
 }
-.container:hover .overlay {
+.containerHover:hover .overlay {
   opacity: 1;
 }
 
