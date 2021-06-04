@@ -1,6 +1,6 @@
 // Url
 // Server
-export const API_URL = 'http://103.110.86.150:8080/CPM-0.0.2/api/';
+export const API_URL = 'http://kbook8888.com:8080/CPM-0.0.3/api/';
 // local
 // export const API_URL = 'http://localhost:8080/api/';
 

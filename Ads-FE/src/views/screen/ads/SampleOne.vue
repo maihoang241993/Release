@@ -11,7 +11,7 @@
           <CCardHeader>Tài khoản ADS</CCardHeader>
           <CCardBody>
             <CRow>
-              <CCol lg="4">
+              <CCol lg="3">
                 <CTableWrapper
                   border
                   hover
@@ -19,6 +19,7 @@
                   :items="dataBm"
                   clickable-rows
                   v-on:rowClick="rowsClick"
+                  v-on:deleteClick="deleteClick"
                 >
                   <template #header>
                     <CIcon name="cil-grid" />
@@ -36,7 +37,7 @@
                   </template>
                 </CTableWrapper>
               </CCol>
-              <CCol sm="8">
+              <CCol sm="9">
                 <CRow>
                   <CCol lg="12">
                     <CCard>
@@ -118,7 +119,14 @@
                           >
                         </CButtonGroup>
                       </CCardHeader>
-                      <CCardBody>
+                      <CCardBody
+                        style="
+                          height: 1210px;
+                          display: block;
+                          overflow-y: scroll;
+                          width: 100%;
+                        "
+                      >
                         <CDataTable
                           class="mb-10 table-outline"
                           hover
@@ -126,10 +134,11 @@
                           :fields="tableFields"
                           head-color="light"
                           no-sorting
-                          :pagination="{ doubleArrows: false, align: 'center' }"
                           border
                           striped
                           outlined
+                          sorter
+                          column-filter
                         >
                           <td
                             slot="checkbox"
@@ -144,23 +153,12 @@
                             slot-scope="{ item }"
                           >
                             <div class="c-avatar">
-                              <!--                          <img :src="item.url" class="c-avatar-img" alt="" />-->
                               <span
                                 class="c-avatar-status"
                                 :class="`bg-${item.status || 'secondary'}`"
                               ></span>
                             </div>
                           </td>
-                          <!--                      <td slot="detailBm" slot-scope="{ item }">-->
-                          <!--                        <div>{{ item.detailBm.id }}</div>-->
-                          <!--                      </td>-->
-                          <!--                      <td slot="delete" class="text-center">-->
-                          <!--                        <CCol col="6" sm="4" md="2" xl class="mb-3 mb-xl-0">-->
-                          <!--                          <CButton @click="" block variant="outline" color="danger"-->
-                          <!--                          >Delete-->
-                          <!--                          </CButton>-->
-                          <!--                        </CCol>-->
-                          <!--                      </td>-->
                         </CDataTable>
                       </CCardBody>
                     </CCard>
@@ -191,6 +189,7 @@ import { freeSet } from "@coreui/icons";
 import ModalAdd from "../modal/ModalAdd";
 import AlterMessages from "@/views/common/alterMessages";
 import BmService from "../../../js/services/bm/bm.service";
+import * as objectUitls from "../../../js/utils/objectUtils";
 
 export default {
   name: "SampleOne",
@@ -205,7 +204,8 @@ export default {
         { key: "account_id", label: "ID", _classes: "text-center" },
         { key: "name", label: "Tên", _classes: "text-center" },
         { key: "idbm", label: "ID BM", _classes: "text-center" },
-        { key: "currency", label: "Loại tiền" },
+        { key: "currency", label: "Loại tiền", _classes: "text-center" },
+        { key: "card", label: "Thẻ", _classes: "text-center" },
       ],
       errors: [],
       data: null,
@@ -259,6 +259,9 @@ export default {
 
       // set disable button
       this.enableButton(true);
+
+      // Clear data bm detail
+      this.dataDetail = null
     },
 
     openModalAdd: function () {
@@ -282,6 +285,30 @@ export default {
       });
       this.btnSelectAll = flag;
       this.btnUnSelect = !flag;
+    },
+
+    deleteClick: async function (confirm, id) {
+      if (confirm) {
+        let data = {
+          idbm: id,
+        };
+        await BmService.deleleBmMaster(data).then(
+          (response) => {
+            this.showMessages(0, "Xóa thành công.");
+            // this.dataBm = this.transportDataMasterBm(response.data);
+          },
+          (error) => {
+            this.showMessages(1, "Xóa không thành công.");
+            this.content =
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString();
+          }
+        );
+        await this.init();
+      }
     },
 
     rowsClick: async function (dataMaster) {
@@ -330,6 +357,7 @@ export default {
           name: item.name,
           idbm: item.business.id,
           currency: item.currency,
+          card: this.getFundingSourceDetails(item),
           // avatar: { url: item.profile_picture_uribm, status: status },
         });
         flagStatus++;
@@ -341,6 +369,18 @@ export default {
         sumTable: flagStatus,
       };
       return _re;
+    },
+
+    getFundingSourceDetails(item) {
+      let _reStr = "";
+      if (!objectUitls.isNullOrEmpty(item.funding_source_details)) {
+        if (
+          !objectUitls.isNullOrEmpty(item.funding_source_details.display_string)
+        ) {
+          _reStr = item.funding_source_details.display_string;
+        }
+      }
+      return _reStr;
     },
 
     shuffleArray(array) {

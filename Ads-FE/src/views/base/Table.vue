@@ -4,7 +4,7 @@
       <slot name="header"> <CIcon name="cil-grid" /> {{ caption }} </slot>
     </CCardHeader>
     <CCardBody
-      style="height: 1210px; display: block; overflow-y: scroll; width: 100%"
+      style="height: 1560px; display: block; overflow-y: scroll; width: 100%"
     >
       <CDataTable
         :hover="hover"
@@ -21,32 +21,20 @@
         :clickableRows="clickableRows"
         v-on:row-clicked="rowClicked"
       >
-        <td slot="idBm" slot-scope="{ item }">
-          <div  class="mytd">
-          <div  style="float: left">
-            <div class="c-avatar" style="float: left">
-              <img :src="item.idBm.url" class="c-avatar-img" alt="" />
-              <span
-                  class="c-avatar-status"
-                  :class="`bg-${item.idBm.status || 'secondary'}`"
-              ></span>
-            </div>
-            <div style="width:200px; float: left; word-wrap: break-word">
-              <span>ID: {{ item.idBm.id }}<br /></span>
-              <span>Name: {{ item.idBm.name }}</span>
-            </div>
+        <td slot="idBm" slot-scope="{ item }" class="container">
+          <div class="c-avatar" style="float: left">
+            <img :src="item.idBm.url" class="c-avatar-img" alt="" />
+            <span
+              class="c-avatar-status"
+              :class="`bg-${item.idBm.status || 'secondary'}`"
+            ></span>
           </div>
-          <div class="hide" style="float: right">
-              <CButton
-                  color="info"
-                  @click="testClick"
-              >Share</CButton>
-          </div>
-
-          <!--          <div class="myDIV" >Del</div>-->
-          <!--          <div class="hide">I am</div>-->
-
-          <!--          <CIcon name="cil-settings"/>-->
+          <CLink class="overlay" @click="deleteClick(item.idBm.id)">
+            <CIcon name="cil-trash" />
+          </CLink>
+          <div style="width: 200px; float: left; word-wrap: break-word">
+            <span>ID: {{ item.idBm.id }}<br /></span>
+            <span>Name: {{ item.idBm.name }}</span>
           </div>
         </td>
       </CDataTable>
@@ -57,6 +45,9 @@
 <script>
 export default {
   name: "Table",
+  data() {
+    return {};
+  },
   props: {
     items: Array,
     fields: [{ key: "idBm", _classes: "text-center" }],
@@ -75,9 +66,14 @@ export default {
     clickableRows: Boolean,
   },
   methods: {
-    testClick(item){
-      debugger
-      alert(item)
+    deleteClick(id) {
+      this.$confirm("Bạn muốn xóa " + id, "Xác nhận", "warning")
+        .then((res) => {
+          this.$emit("deleteClick", true, id);
+        })
+        .catch((e) => {
+          this.$emit("deleteClick", false, id);
+        });
     },
     getBadge(status) {
       return status === "Active"
@@ -98,12 +94,25 @@ export default {
 </script>
 
 <style>
-.hide {
-  display: none;
+.container {
+  position: relative;
+  width: 50%;
+  max-width: 300px;
+}
+.container:hover .overlay {
+  opacity: 1;
 }
 
-.mytd:hover + .hide {
-  display: block;
-  color: red;
+.overlay {
+  position: inherit;
+  bottom: 0;
+  /*background: rgb(0, 0, 0);*/
+  /*background: rgba(0, 0, 0, 0.5); !* Black see-through *!*/
+  /*color: #f1f1f1;*/
+  width: auto;
+  transition: 0.5s ease;
+  opacity: 0;
+  /*color: white;*/
+  text-align: right;
 }
 </style>

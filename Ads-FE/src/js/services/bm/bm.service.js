@@ -10,6 +10,10 @@ class UserService {
   addBmMaster(data) {
     return axios.post(constantUtils.API_URL + 'bm/updateBm',data,{ headers: authHeader() });
   }
+
+  deleleBmMaster(data) {
+    return axios.post(constantUtils.API_URL + 'bm/deleteBm',data,{ headers: authHeader() });
+  }
 }
 
 export default new UserService();
