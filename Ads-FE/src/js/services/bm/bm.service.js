@@ -1,18 +1,19 @@
-import axios from 'axios';
-import authHeader from '../authen/auth-header';
-import * as constantUtils from "../../constantUtils"
+import axios from "axios";
+import authHeader from "../authen/auth-header";
+import * as constantUtils from "../../constantUtils";
+import screenHelper from "../common/screenHelper.js";
 
 class UserService {
   getListBmMaster() {
-    return axios.get(constantUtils.API_URL + 'bm/loadBm',{ headers: authHeader() });
+    return screenHelper.submitServer("post", "bm/loadBm");
   }
 
   addBmMaster(data) {
-    return axios.post(constantUtils.API_URL + 'bm/updateBm',data,{ headers: authHeader() });
+    return screenHelper.submitServer("post", "bm/updateBm", data);
   }
 
   deleleBmMaster(data) {
-    return axios.post(constantUtils.API_URL + 'bm/deleteBm',data,{ headers: authHeader() });
+    return screenHelper.submitServer("post", "bm/deleteBm", data);
   }
 }
 

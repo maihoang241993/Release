@@ -16,7 +16,13 @@ export default [
         _name: 'CSidebarNavItem',
         name: 'Tài khoản Ads (SU)',
         to: '/sampleone',
-        icon: 'cil-speedometer'
+        icon: 'cil-bank'
+      },
+      {
+        _name: 'CSidebarNavItem',
+        name: 'Hạ quyền (Ads)',
+        to: '/accountauthorization',
+        icon: 'cil-settings'
       },
       // {
       //   _name: 'CSidebarNavTitle',

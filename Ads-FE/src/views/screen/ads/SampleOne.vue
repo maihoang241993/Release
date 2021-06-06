@@ -12,7 +12,7 @@
           <CCardBody>
             <CRow>
               <CCol lg="3">
-                <CTableWrapper
+                <CpmTable
                   border
                   hover
                   :header="false"
@@ -35,7 +35,7 @@
                       </CButton>
                     </div>
                   </template>
-                </CTableWrapper>
+                </CpmTable>
               </CCol>
               <CCol sm="9">
                 <CRow>
@@ -136,6 +136,7 @@
                           no-sorting
                           border
                           striped
+                          tableFilter
                           outlined
                           sorter
                           column-filter
@@ -182,30 +183,31 @@
 </template>
 
 <script>
-import CTableWrapper from "../../base/Table.vue";
+import CpmTable from "../base/table/CpmTable";
 import * as constantUtils from "../../../js/constantUtils";
 import axios from "axios";
 import { freeSet } from "@coreui/icons";
-import ModalAdd from "../modal/ModalAdd";
+import ModalAdd from "../base/modal/ModalAdd";
 import AlterMessages from "@/views/common/alterMessages";
 import BmService from "../../../js/services/bm/bm.service";
 import * as objectUitls from "../../../js/utils/objectUtils";
 
 export default {
   name: "SampleOne",
-  components: { AlterMessages, ModalAdd, CTableWrapper },
+  components: { AlterMessages, ModalAdd, CpmTable },
   freeSet,
   data() {
     return {
       dataDetail: null,
       tableFields: [
         { key: "checkbox", label: "Chọn", _classes: "text-center" },
-        { key: "status", label: "Trạng thái", _classes: "text-center" },
+        { key: "status", label: "Hoạt động", _classes: "text-center" },
         { key: "account_id", label: "ID", _classes: "text-center" },
         { key: "name", label: "Tên", _classes: "text-center" },
         { key: "idbm", label: "ID BM", _classes: "text-center" },
         { key: "currency", label: "Loại tiền", _classes: "text-center" },
         { key: "card", label: "Thẻ", _classes: "text-center" },
+        { key: "active", label: "Trạng thái", _classes: "text-center" },
       ],
       errors: [],
       data: null,
@@ -261,7 +263,7 @@ export default {
       this.enableButton(true);
 
       // Clear data bm detail
-      this.dataDetail = null
+      this.dataDetail = null;
     },
 
     openModalAdd: function () {
@@ -358,6 +360,7 @@ export default {
           idbm: item.business.id,
           currency: item.currency,
           card: this.getFundingSourceDetails(item),
+          active: "",
           // avatar: { url: item.profile_picture_uribm, status: status },
         });
         flagStatus++;
@@ -529,19 +532,29 @@ export default {
             .post(apiShare, data, config)
             .then(function (res) {
               console.log(res);
+
               return true;
             })
             .catch(function (err) {
               console.log(err.response);
               return false;
             });
+          if (result) {
+            this.updateStatusShare(this.dataDetail[i].account_id, "Thành công");
+          } else {
+            this.updateStatusShare(this.dataDetail[i].account_id, "Bỏ qua");
+          }
         }
       }
-      if (result == true) {
-        this.showMessages(0, "Share thành công.");
-      } else {
-        this.showMessages(1, "Share thất bại.", JSON.stringify(this.error));
-      }
+      this.showMessages(0, "Xử lý hoàn tất");
+    },
+
+    updateStatusShare: async function (accountId, active) {
+      this.dataDetail.forEach((item) => {
+        if (item.account_id === accountId) {
+          item.active = active;
+        }
+      });
     },
   },
 };
