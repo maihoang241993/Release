@@ -522,7 +522,7 @@ export default {
       for (let i = 0; i < this.dataDetail.length; i++) {
         if (this.dataDetail[i].isCheck == true) {
           let apiShare =
-            "https://graph.facebook.com/v9.0/" +
+            constantUtils.FB_URL +
             "act_" +
             this.dataDetail[i].account_id +
             "/agencies?" +
