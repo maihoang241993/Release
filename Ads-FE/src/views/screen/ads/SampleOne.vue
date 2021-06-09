@@ -508,19 +508,15 @@ export default {
           "Content-Type": "multipart/form-data",
         },
       };
-      let data = new FormData();
-      data.append("accountId", this.dataMaster.idBm.id);
-      data.append("acting_brand_id", this.dataMaster.idBm.id);
-      data.append("business", dataShare.id);
-      data.append("permitted_tasks", [
-        "ADVERTISE",
-        "ANALYZE",
-        "DRAFT",
-        "MANAGE",
-      ]);
+      const task = ["ADVERTISE", "ANALYZE", "DRAFT", "MANAGE"];
       let result;
       for (let i = 0; i < this.dataDetail.length; i++) {
         if (this.dataDetail[i].isCheck == true) {
+          let data = new FormData();
+          data.append("accountId", this.dataDetail[i].account_id);
+          data.append("acting_brand_id", this.dataMaster.idBm.id);
+          data.append("business", dataShare.id);
+          data.append("permitted_tasks", JSON.stringify(task));
           let apiShare =
             constantUtils.FB_URL +
             "act_" +
