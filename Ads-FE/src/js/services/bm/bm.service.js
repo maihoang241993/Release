@@ -15,6 +15,10 @@ class UserService {
   deleleBmMaster(data) {
     return screenHelper.submitServer("post", "bm/deleteBm", data);
   }
+
+  updateTokenAll(data) {
+    return screenHelper.submitServer("post", "bm/updateTokenBm", data);
+  }
 }
 
 export default new UserService();

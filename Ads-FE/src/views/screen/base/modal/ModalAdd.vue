@@ -20,37 +20,47 @@
           </slot>
           <slot name="body-wrapper">
             <div class="modal-body">
-              <CForm>
-                <CInput
-                  v-if="viewModal == 'addBm'"
-                  :is-valid="validator"
-                  placeholder="Name bm"
-                  v-model="dataModal.name"
+              <div v-if="isShowGrid">
+                <CpmDataTable
+                  :table-fields="tableFields"
+                  :data-items="dataModalGrid"
+                  :heightGrid="'600'"
                 >
-                  <template #prepend-content>
-                    <CIcon name="cil-user"
-                  /></template>
-                </CInput>
-                <CInput
-                  placeholder="Id bm"
-                  v-model="dataModal.id"
-                  :is-valid="validator"
-                >
-                  <template #prepend-content
-                    ><CIcon name="cil-settings"
-                  /></template>
-                </CInput>
-                <CInput
-                  v-if="viewModal == 'addBm'"
-                  placeholder="Token"
-                  v-model="dataModal.token"
-                  :is-valid="validator"
-                >
-                  <template #prepend-content
-                    ><CIcon name="cil-settings"
-                  /></template>
-                </CInput>
-              </CForm>
+                </CpmDataTable>
+              </div>
+              <div v-if="!isShowGrid">
+                <CForm>
+                  <CInput
+                    v-if="viewModal == 'addBm'"
+                    :is-valid="validator"
+                    placeholder="Name bm"
+                    v-model="dataModal.name"
+                  >
+                    <template #prepend-content>
+                      <CIcon name="cil-user"
+                    /></template>
+                  </CInput>
+                  <CInput
+                    placeholder="Id bm"
+                    v-model="dataModal.id"
+                    :is-valid="validator"
+                  >
+                    <template #prepend-content
+                      ><CIcon name="cil-settings"
+                    /></template>
+                  </CInput>
+                  <CInput
+                    v-if="viewModal == 'addBm'"
+                    placeholder="Token"
+                    v-model="dataModal.token"
+                    :is-valid="validator"
+                  >
+                    <template #prepend-content
+                      ><CIcon name="cil-settings"
+                    /></template>
+                  </CInput>
+                </CForm>
+              </div>
             </div>
           </slot>
           <slot name="footer-wrapper">
@@ -85,13 +95,21 @@
 
 <script>
 import CButtonClose from "./BtnClose.vue";
+import CpmDataTable from "@/views/screen/base/table/CpmDataTable";
+import FB from "../../../../js/services/facebook/fb.service";
 
 export default {
   name: "ModalAdd",
   components: {
+    CpmDataTable,
     CButtonClose,
   },
   props: {
+    dataModalGrid: Array,
+    isShowGrid: {
+      type: Boolean,
+      default: false,
+    },
     viewModal: String,
     show: Boolean,
     centered: Boolean,
@@ -120,6 +138,19 @@ export default {
   },
   data() {
     return {
+      tableFields: [
+        { key: "dataMaster", _classes: "d-none" },
+        { key: "datadataDetail", _classes: "d-none" },
+        {
+          key: "checkbox",
+          _style: { width: "10px" },
+          label: "",
+          _classes: "col-md-1",
+        },
+        { key: "account_id", label: "ID", _classes: "d-none" },
+        { key: "name", label: "Tên", _classes: "text-center" },
+        { key: "statusAuthen", label: "Status", _classes: "text-center" },
+      ],
       visible: this.show,
       isTransitioning: false,
       timeout: null,
@@ -128,6 +159,7 @@ export default {
         id: null,
         token: null,
       },
+      showSpinner: false,
     };
   },
   computed: {
@@ -183,7 +215,48 @@ export default {
         this.hide(e);
       }
     },
-    hide(e, accept = false) {
+    hide: async function (e, accept = false) {
+      if (this.isShowGrid && accept) {
+        let loader = this.$loading.show({
+          // Optional parameters
+          container: this.$refs.formContainer,
+          isFullPage: false,
+          canCancel: false,
+        });
+        for (let i = 0; i < this.dataModalGrid.length; i++) {
+          const item = this.dataModalGrid[i];
+          if (item.isCheck) {
+            const data = {
+              account_id: "act_" + item.dataDetail.account_id,
+              business: item.dataMaster.idBm.id,
+              token: item.dataMaster.idBm.token,
+              userId: item.id,
+            };
+            let result = await FB.updateAuthenAccountPartner(data).then(
+              (response) => {
+                return true;
+              },
+              (error) => {
+                return false;
+                // this.updateStatus(1, "Đăng ký không thành công.");
+                this.content =
+                  (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                  error.message ||
+                  error.toString();
+              }
+            );
+            if (result) {
+              await this.updateStatus(item.id, "Thành công");
+            } else {
+              await this.updateStatus(item.id, "Thất bại");
+            }
+          }
+        }
+        loader.hide()
+        return;
+      }
       this.$emit("update:show", false, e, accept);
       this.$emit("returnData", this, accept, this.viewModal);
       if (this.visible) {
@@ -218,6 +291,14 @@ export default {
     },
     validator(val) {
       return val ? val.length >= 1 : false;
+    },
+
+    updateStatus: async function (accountId, active) {
+      this.dataModalGrid.forEach((item) => {
+        if (item.id === accountId) {
+          item.statusAuthen = active;
+        }
+      });
     },
   },
   mounted: function () {

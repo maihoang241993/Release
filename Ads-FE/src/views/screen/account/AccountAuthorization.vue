@@ -148,6 +148,7 @@ export default {
     },
 
     rowsClickAds: async function (dataAds) {
+
       const data = {
         id: dataAds.id,
         token: dataAds.token,

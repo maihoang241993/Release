@@ -17,7 +17,7 @@ class FbService {
 
   getListUser(data) {
     const api =
-      "https://graph.facebook.com/v10.0/" +
+      constantUtils.FB_URL +
       data.id +
       "/assigned_users?business=" +
       data.idBm +
@@ -28,6 +28,55 @@ class FbService {
       '"is_profile_core_app_admin","is_system_user"]';
 
     return axios.get(api);
+  }
+
+  getAllListUser(data) {
+    // &fields=["email","expiry_time","first_name","finance_permission","developer_permission","ip_permission","partner_center_admin_permission","partner_center_analyst_permission","partner_center_education_permission","partner_center_marketing_permission","partner_center_operations_permission","last_name","manage_page_in_www","marked_for_removal","pending_email","role","two_fac_status","is_two_fac_blocked","sso_migration_status","business_role_request.fields(creation_source.fields(name),created_by.fields(name),created_time,updated_time)","transparency_info_seen_by","work_profile_pic","is_pending_integrity_review"]
+    const api =
+      constantUtils.FB_URL +
+      data.id +
+      "/business_users?access_token=" +
+      data.token;
+      // '&fields=account_id,disable_reason,name,currency,account_status,business,funding_source_details';
+
+    return axios.get(api);
+  }
+
+  getListAccount(data) {
+    let api =
+      constantUtils.FB_URL +
+      data.id +
+      "/owned_ad_accounts?" +
+      "access_token=" +
+      data.token +
+      "&limit=200&" +
+      "fields=account_id,disable_reason,name,currency,account_status,business,funding_source_details";
+
+    return axios.get(api);
+  }
+
+  getListPartnerAccount(data) {
+    const api =
+      constantUtils.FB_URL +
+      data.id +
+      "/client_ad_accounts?access_token=" +
+      data.token +
+      "&limit=200&fields=account_id,disable_reason,name,currency,account_status,business,funding_source_details";
+    return axios.get(api);
+  }
+
+  updateAuthenAccountPartner(data) {
+    const api =
+      constantUtils.FB_URL +
+      data.account_id +
+      "/assigned_users?business=" +
+      data.business +
+      "&access_token=" +
+      data.token +
+      "&user=" +
+      data.userId +
+      "&tasks=MANAGE";
+    return axios.post(api);
   }
 
   // addBmMaster(data) {

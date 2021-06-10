@@ -64,6 +64,22 @@
                           plaintext
                           v-model="info.sumTable"
                         />
+                        <CInput
+                          label="Token Full Quyền (Thêm tài khoản đối tác)"
+                          size="lg"
+                          placeholder="update token all"
+                          v-model="tokenFull"
+                          ref="testFocus"
+                        >
+                          <template #append>
+                            <CButton
+                              type="submit"
+                              @click="updateTokenAll"
+                              color="primary"
+                              >Cập nhật</CButton
+                            >
+                          </template>
+                        </CInput>
                       </CCardBody>
                       <CCardFooter>
                         <div style="float: right">
@@ -100,69 +116,12 @@
                 </CRow>
                 <CRow>
                   <CCol lg="12">
-                    <CCard>
-                      <CCardHeader>
-                        <CButtonGroup class="mx-1 d-sm-down-none">
-                          <CButton
-                            @click="selectRow(true)"
-                            size="sm"
-                            color="info"
-                            :disabled="btnSelectAll"
-                            >Chọn tất cả</CButton
-                          >
-                          <CButton
-                            @click="selectRow(false)"
-                            size="sm"
-                            :disabled="btnUnSelect"
-                            color="info"
-                            >Bỏ chọn</CButton
-                          >
-                        </CButtonGroup>
-                      </CCardHeader>
-                      <CCardBody
-                        style="
-                          height: 1210px;
-                          display: block;
-                          overflow-y: scroll;
-                          width: 100%;
-                        "
-                      >
-                        <CDataTable
-                          class="mb-10 table-outline"
-                          hover
-                          :items="dataDetail"
-                          :fields="tableFields"
-                          head-color="light"
-                          no-sorting
-                          border
-                          striped
-                          tableFilter
-                          outlined
-                          sorter
-                          column-filter
-                        >
-                          <td
-                            slot="checkbox"
-                            class="text-center"
-                            slot-scope="{ item }"
-                          >
-                            <CInputCheckbox :checked.sync="item.isCheck" />
-                          </td>
-                          <td
-                            slot="status"
-                            class="text-center"
-                            slot-scope="{ item }"
-                          >
-                            <div class="c-avatar">
-                              <span
-                                class="c-avatar-status"
-                                :class="`bg-${item.status || 'secondary'}`"
-                              ></span>
-                            </div>
-                          </td>
-                        </CDataTable>
-                      </CCardBody>
-                    </CCard>
+                    <CpmDataTable
+                      :data-items="dataDetail"
+                      :table-fields="tableFields"
+                      v-on:showModal="showModal"
+                    >
+                    </CpmDataTable>
                   </CCol>
                 </CRow>
               </CCol>
@@ -177,6 +136,8 @@
       color="info"
       :show.sync="infoModal"
       v-on:returnData="addBm"
+      :is-show-grid="isShowGrid"
+      :data-modal-grid="dataModalGrid"
     >
     </ModalAdd>
   </div>
@@ -190,11 +151,13 @@ import { freeSet } from "@coreui/icons";
 import ModalAdd from "../base/modal/ModalAdd";
 import AlterMessages from "@/views/common/alterMessages";
 import BmService from "../../../js/services/bm/bm.service";
+import FB from "../../../js/services/facebook/fb.service";
 import * as objectUitls from "../../../js/utils/objectUtils";
+import CpmDataTable from "@/views/screen/base/table/CpmDataTable";
 
 export default {
   name: "SampleOne",
-  components: { AlterMessages, ModalAdd, CpmTable },
+  components: { CpmDataTable, AlterMessages, ModalAdd, CpmTable },
   freeSet,
   data() {
     return {
@@ -208,6 +171,11 @@ export default {
         { key: "currency", label: "Loại tiền", _classes: "text-center" },
         { key: "card", label: "Thẻ", _classes: "text-center" },
         { key: "active", label: "Trạng thái", _classes: "text-center" },
+        {
+          key: "addAcountPartner",
+          label: "Thêm tài khoản (Đối tác)",
+          _classes: "text-center",
+        },
       ],
       errors: [],
       data: null,
@@ -216,8 +184,11 @@ export default {
 
       infoModal: false,
       dataModal: null,
+      infoModalPartner: false,
       viewModal: null,
       titleModal: null,
+      isShowGrid: false,
+      dataModalGrid: null,
 
       info: {
         id: null,
@@ -235,10 +206,19 @@ export default {
       btnShare: true,
       btnHistory: true,
       btnExport: true,
-      btnSelectAll: true,
-      btnUnSelect: true,
       error: null,
+
+      tokenFull: null,
     };
+  },
+  watch: {
+    dataDetail: function (newVal, oldVal) {
+      if (newVal !== null && newVal.length > 0) {
+        this.enableButton(false);
+      } else {
+        this.enableButton(true);
+      }
+    },
   },
   created: async function () {
     await this.init();
@@ -259,15 +239,48 @@ export default {
         }
       );
 
-      // set disable button
-      this.enableButton(true);
-
       // Clear data bm detail
       this.dataDetail = null;
     },
 
+    showModal: async function (item) {
+      this.isShowGrid = true;
+      this.dataModalGrid = null;
+      const data = {
+        id: item.idbm,
+        token: this.dataMaster.idBm.tokenFull,
+      };
+      await FB.getAllListUser(data).then(
+        (response) => {
+          this.infoModal = true;
+          //data body
+          this.dataModalGrid = this.transportDataUser(item, response.data.data);
+        },
+        (error) => {
+          this.showMessages(1, "Lỗi", error.response.data.error.message);
+        }
+      );
+    },
+
+    transportDataUser: function (dataDetail, dataUser) {
+      let _re = [];
+      // data body
+      dataUser.forEach((item) => {
+        _re.push({
+          dataMaster: this.dataMaster,
+          dataDetail: dataDetail,
+          id: item.id,
+          name: item.name,
+          isCheck: false,
+          statusAuthen: "",
+        });
+      });
+      return _re;
+    },
+
     openModalAdd: function () {
       this.viewModal = "addBm";
+      this.isShowGrid = false;
       this.setTileModal("Thêm BM");
     },
 
@@ -278,15 +291,8 @@ export default {
 
     shareBm: async function () {
       this.viewModal = "shareBm";
+      this.isShowGrid = false;
       this.setTileModal("Share BM");
-    },
-
-    selectRow: function (flag) {
-      this.dataDetail.forEach((item) => {
-        item.isCheck = flag;
-      });
-      this.btnSelectAll = flag;
-      this.btnUnSelect = !flag;
     },
 
     deleteClick: async function (confirm, id) {
@@ -315,39 +321,70 @@ export default {
 
     rowsClick: async function (dataMaster) {
       this.dataMaster = dataMaster;
-      let apiDetail =
-        constantUtils.FB_URL +
-        dataMaster.idBm.id +
-        "/owned_ad_accounts?" +
-        "access_token=" +
-        dataMaster.idBm.token +
-        "&limit=200&" +
-        "fields=account_id,disable_reason,name,currency,account_status,business,funding_source_details";
-      await axios
-        .get(apiDetail)
-        .then((res) => {
-          console.log(res);
-
+      this.dataDetail = null;
+      this.info = {
+        id: null,
+        name: null,
+        sumTable: null,
+      };
+      const data = {
+        id: dataMaster.idBm.id,
+        token: dataMaster.idBm.token,
+      };
+      let result1;
+      let result2;
+      await FB.getListAccount(data).then(
+        (response) => {
           //data body
-          this.dataDetail = this.transportDataDetailBm(
-            dataMaster,
-            res.data.data
-          );
-        })
-        .catch((error) => {
-          return {
-            title: "Error!!!",
-            body: "We got an example error!",
-          };
-        });
+          result1 = this.transportDataDetailBm(dataMaster, response.data.data);
+        },
+        (error) => {
+          this.content =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
 
-      // set disable button
-      this.enableButton(false);
+      await FB.getListPartnerAccount(data).then(
+        (response) => {
+          //data body
+          if (
+            !objectUitls.isNullOrEmpty(response.data.data) &&
+            response.data.data.length > 0
+          ) {
+            result2 = this.transportDataDetailBm(
+              dataMaster,
+              response.data.data
+            );
+          }
+        },
+        (error) => {
+          this.content =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+      let dataAfter = null;
+      if (!objectUitls.isNullOrEmpty(result1) && result1.length > 0) {
+        dataAfter = result1;
+      }
+      if (!objectUitls.isNullOrEmpty(result2) && result2.length > 0) {
+        result2.forEach((obj) => {
+          dataAfter.push(obj);
+        });
+      }
+      this.dataDetail = dataAfter;
+      this.info.sumTable = dataAfter == null ? "" : dataAfter.length;
     },
 
     transportDataDetailBm(dataMaster, dataDetail) {
       let _re = [];
-      let flagStatus = 0;
 
       // data body
       dataDetail.forEach((item) => {
@@ -357,19 +394,19 @@ export default {
           status: status,
           account_id: item.account_id,
           name: item.name,
-          idbm: item.business.id,
+          idbm: !objectUitls.isNullOrEmpty(item.business)
+            ? item.business.id
+            : "",
           currency: item.currency,
           card: this.getFundingSourceDetails(item),
           active: "",
           // avatar: { url: item.profile_picture_uribm, status: status },
         });
-        flagStatus++;
       });
       // data header
       this.info = {
         id: dataMaster.idBm.id,
         name: dataMaster.idBm.nameMaster,
-        sumTable: flagStatus,
       };
       return _re;
     },
@@ -406,6 +443,7 @@ export default {
             id: item.idbm,
             name: item.namebm,
             token: item.tokenbm,
+            tokenFull: item.token_bm_full,
             nameMaster: item.name,
           },
         });
@@ -497,8 +535,6 @@ export default {
       this.btnShare = isEnable;
       this.btnHistory = isEnable;
       this.btnExport = isEnable;
-      this.btnSelectAll = isEnable;
-      this.btnUnSelect = isEnable;
     },
 
     setShareBm: async function (component) {
@@ -551,6 +587,29 @@ export default {
           item.active = active;
         }
       });
+    },
+
+    updateTokenAll: async function () {
+      if (!objectUitls.isNullOrEmpty(this.dataMaster.idBm.id)) {
+        let data = {
+          idbm: this.dataMaster.idBm.id,
+          token_bm_full: this.tokenFull,
+        };
+        await BmService.updateTokenAll(data).then(
+          (response) => {
+            this.showMessages(0, "Cập nhật thành công.");
+          },
+          (error) => {
+            this.showMessages(1, "Cập nhật không thành công.");
+            this.content =
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString();
+          }
+        );
+      }
     },
   },
 };
