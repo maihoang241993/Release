@@ -247,7 +247,7 @@ export default {
       this.isShowGrid = true;
       this.dataModalGrid = null;
       const data = {
-        id: item.idbm,
+        id: this.dataMaster.idBm.id,
         token: this.dataMaster.idBm.tokenFull,
       };
       await FB.getAllListUser(data).then(
