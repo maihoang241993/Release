@@ -609,6 +609,8 @@ export default {
               error.toString();
           }
         );
+
+        await this.init();
       }
     },
   },
