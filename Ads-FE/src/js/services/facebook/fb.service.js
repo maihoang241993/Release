@@ -37,7 +37,7 @@ class FbService {
       data.id +
       "/business_users?access_token=" +
       data.token;
-      // '&fields=account_id,disable_reason,name,currency,account_status,business,funding_source_details';
+    // '&fields=account_id,disable_reason,name,currency,account_status,business,funding_source_details';
 
     return axios.get(api);
   }
@@ -79,13 +79,28 @@ class FbService {
     return axios.post(api);
   }
 
-  // addBmMaster(data) {
-  //     return axios.post(constantUtils.API_URL + 'bm/updateBm',data,{ headers: authHeader() });
-  // }
-  //
-  // deleleBmMaster(data) {
-  //     return axios.post(constantUtils.API_URL + 'bm/deleteBm',data,{ headers: authHeader() });
-  // }
+  changePermissionAcount(data, upDown) {
+    //&access_token=123&user=100065409465295&tasks=MANAGE
+    const permissionUpDown = upDown === "Up" ? "MANAGE" : "ANALYZE";
+    // if (upDown === "Up") {
+    //   permissionUpDown = "MANAGE";
+    // } else {
+    //   permissionUpDown = "ANALYZE";
+    // }
+    const api =
+      constantUtils.FB_URL +
+      data.account_id +
+      "/assigned_users?business=" +
+      data.business +
+      "&access_token=" +
+      data.token +
+      "&user=" +
+      data.userId +
+      "&tasks=" +
+      permissionUpDown;
+
+    return axios.post(api);
+  }
 }
 
 export default new FbService();

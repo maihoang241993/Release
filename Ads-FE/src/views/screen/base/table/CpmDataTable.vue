@@ -17,6 +17,26 @@
           >Bỏ chọn</CButton
         >
       </CButtonGroup>
+
+      <CButtonGroup v-show="isShowChangePermission" class="mx-1 d-sm-down-none">
+        <CButton
+          class="right-button"
+          @click="changePermissionClick('Up')"
+          size="sm"
+          :disabled="isDisabelPermission"
+          color="info"
+          >Nâng quyền</CButton
+        >
+
+        <CButton
+          class="right-button"
+          @click="changePermissionClick('Down')"
+          size="sm"
+          :disabled="isDisabelPermission"
+          color="info"
+          >Hạ quyền</CButton
+        >
+      </CButtonGroup>
     </CCardHeader>
     <CCardBody
       :style="
@@ -69,6 +89,7 @@
 </template>
 
 <script>
+import * as objectUitls from "../../../../js/utils/objectUtils";
 export default {
   name: "CpmDataTable",
   props: {
@@ -78,6 +99,10 @@ export default {
       type: String,
       default: "1210",
     },
+    isShowChangePermission: {
+      type: Boolean,
+      default: false,
+    },
   },
   watch: {
     dataItems: function (newVal, oldVal) {
@@ -86,6 +111,20 @@ export default {
       } else {
         this.enableButton(true);
       }
+
+      // if (
+      //   !objectUitls.isNullOrEmpty(this.dataItems) &&
+      //   this.dataItems.length > 0
+      // ) {
+      //   this.dataItems.forEach((item) => {
+      //     if (item.isCheck) {
+      //       this.isDisabelPermission = false;
+      //       return;
+      //     }
+      //   });
+      // } else {
+      //   this.isDisabelPermission = true;
+      // }
     },
   },
   data() {
@@ -93,6 +132,8 @@ export default {
       btnSelectAll: true,
       btnUnSelect: true,
       infoModal: false,
+
+      isDisabelPermission: false,
     };
   },
   methods: {
@@ -112,6 +153,10 @@ export default {
 
     addAccountPartnerClick: function (item, index) {
       this.$emit("showModal", item);
+    },
+
+    changePermissionClick: function (flagChangePermission) {
+      this.$emit("updatePermission", flagChangePermission);
     },
   },
 };

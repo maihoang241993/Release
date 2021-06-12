@@ -106,11 +106,11 @@ function configRoutes () {
           name: 'SampleOne',
           component: SampleOne
         },
-        // {
-        //   path: 'accountauthorization',
-        //   name: 'AccountAuthorization',
-        //   component: AccountAuthorization
-        // },
+        {
+          path: 'accountauthorization',
+          name: 'AccountAuthorization',
+          component: AccountAuthorization
+        },
         // {
         //   path: 'workingspace',
         //   redirect: '/screen/scans',

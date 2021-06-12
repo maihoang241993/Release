@@ -18,12 +18,12 @@ export default [
         to: '/sampleone',
         icon: 'cil-bank'
       },
-      // {
-      //   _name: 'CSidebarNavItem',
-      //   name: 'Hạ quyền (Ads)',
-      //   to: '/accountauthorization',
-      //   icon: 'cil-settings'
-      // },
+      {
+        _name: 'CSidebarNavItem',
+        name: 'Thay đổi quyền (Ads)',
+        to: '/accountauthorization',
+        icon: 'cil-settings'
+      },
       // {
       //   _name: 'CSidebarNavTitle',
       //   _children: ['WorkingSpace']
