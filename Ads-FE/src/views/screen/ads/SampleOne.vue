@@ -539,38 +539,23 @@ export default {
 
     setShareBm: async function (component) {
       const dataShare = component.dataModal;
-      let config = {
-        header: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-      const task = ["ADVERTISE", "ANALYZE", "DRAFT", "MANAGE"];
       let result;
       for (let i = 0; i < this.dataDetail.length; i++) {
         if (this.dataDetail[i].isCheck == true) {
-          let data = new FormData();
-          data.append("accountId", this.dataDetail[i].account_id);
-          data.append("acting_brand_id", this.dataMaster.idBm.id);
-          data.append("business", dataShare.id);
-          data.append("permitted_tasks", JSON.stringify(task));
-          let apiShare =
-            constantUtils.FB_URL +
-            "act_" +
-            this.dataDetail[i].account_id +
-            "/agencies?" +
-            "access_token=" +
-            this.dataMaster.idBm.token;
-          result = await axios
-            .post(apiShare, data, config)
-            .then(function (res) {
-              console.log(res);
-
+          const data = {
+            account_id: this.dataDetail[i].account_id,
+            token: this.dataMaster.idBm.token,
+            acting_brand_id: this.dataMaster.idBm.id,
+            business: dataShare.id,
+          };
+          result = await FB.addPartner(data).then(
+            (response) => {
               return true;
-            })
-            .catch(function (err) {
-              console.log(err.response);
+            },
+            (error) => {
               return false;
-            });
+            }
+          );
           if (result) {
             this.updateStatusShare(this.dataDetail[i].account_id, "Thành công");
           } else {

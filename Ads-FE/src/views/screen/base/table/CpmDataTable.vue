@@ -1,6 +1,6 @@
 <template>
   <CCard>
-    <CCardHeader>
+    <CCardHeader v-show="isShowCardHeader">
       <CButtonGroup class="mx-1 d-sm-down-none">
         <CButton
           @click="selectRow(true)"
@@ -59,6 +59,19 @@
         sorter
         column-filter
       >
+        <td slot="infoData" slot-scope="{ item }">
+          <div class="c-avatar" style="float: left">
+            <img :src="item.infoData.url" class="c-avatar-img" alt="" />
+            <span
+              class="c-avatar-status"
+              :class="`bg-${item.infoData.status || 'secondary'}`"
+            ></span>
+          </div>
+          <div style="width: 200px; float: left; word-wrap: break-word">
+            <span>ID: {{ item.infoData.id }}<br /></span>
+            <span>Name: {{ item.infoData.name }}</span>
+          </div>
+        </td>
         <td slot="checkbox" class="text-center" slot-scope="{ item }">
           <CInputCheckbox :checked.sync="item.isCheck" />
         </td>
@@ -103,6 +116,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isShowCardHeader: {
+      type: Boolean,
+      default: true
+    }
   },
   watch: {
     dataItems: function (newVal, oldVal) {

@@ -62,6 +62,7 @@ const User = () => import('@/views/users/User')
 // WorkingSpace
 const SampleOne = () => import('@/views/screen/ads/SampleOne')
 const AccountAuthorization = () => import('@/views/screen/account/AccountAuthorization')
+const AddPartner = () => import('@/views/screen/partner/AddPartner')
 
 
 Vue.use(VueAxios,axios)
@@ -110,6 +111,11 @@ function configRoutes () {
           path: 'accountauthorization',
           name: 'AccountAuthorization',
           component: AccountAuthorization
+        },
+        {
+          path: 'addPartner',
+          name: 'AddPartner',
+          component: AddPartner
         },
         // {
         //   path: 'workingspace',

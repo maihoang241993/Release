@@ -79,14 +79,33 @@ class FbService {
     return axios.post(api);
   }
 
+  addPartner(data) {
+    const config = {
+      header: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    const api =
+      constantUtils.FB_URL +
+      "act_" +
+      data.account_id +
+      "/agencies?access_token=" +
+      data.token;
+
+    let formData = new FormData();
+    formData.append("accountId", data.account_id);
+    formData.append("acting_brand_id", data.acting_brand_id);
+    formData.append("business", data.business);
+    formData.append(
+      "permitted_tasks",
+      JSON.stringify(["ADVERTISE", "ANALYZE", "DRAFT", "MANAGE"])
+    );
+
+    return axios.post(api, formData, config);
+  }
+
   changePermissionAcount(data, upDown) {
-    //&access_token=123&user=100065409465295&tasks=MANAGE
     const permissionUpDown = upDown === "Up" ? "MANAGE" : "ANALYZE";
-    // if (upDown === "Up") {
-    //   permissionUpDown = "MANAGE";
-    // } else {
-    //   permissionUpDown = "ANALYZE";
-    // }
     const api =
       constantUtils.FB_URL +
       data.account_id +

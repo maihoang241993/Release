@@ -1,25 +1,12 @@
 {
-  "name": "@coreui/coreui-free-vue-admin-template",
-  "version": "3.1.4",
-  "description": "Open Source Bootstrap Admin Template",
-  "author": {
-    "name": "CoreUI",
-    "url": "https://coreui.io",
-    "github": "https://github.com/coreui",
-    "twitter": "https://twitter.com/core_ui"
-  },
   "contributors": [
     {
-      "name": "CoreUI Team",
-      "url": "https://github.com/orgs/coreui/people"
+      "name": "Kbook8888 Team",
+      "url": "https://kbook8888.com"
     }
   ],
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:coreui/coreui-free-vue-admin-template.git"
-  },
-  "homepage": "http://coreui.io",
-  "copyright": "Copyright 2021 creativeLabs Łukasz Holeczek",
+  "homepage": "https://kbook8888.com",
+  "copyright": "Copyright 2021",
   "license": "MIT",
   "scripts": {
     "start": "node server.js",
@@ -58,7 +45,6 @@
     "auto-changelog": "~2.2.1",
     "babel-eslint": "~10.1.0",
     "babel-jest": "~26.6.3",
-    "chromedriver": "latest",
     "core-js": "^3.9.1",
     "eslint": "^6.8.0",
     "eslint-plugin-vue": "^6.2.2",

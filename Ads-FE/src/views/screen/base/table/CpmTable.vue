@@ -54,91 +54,91 @@
             </CButton>
           </td>
         </template>
-        <template #details="{ item }">
-          <CCollapse
-            :show="Boolean(item._toggled)"
-            :duration="collapseDuration"
-          >
-            <CCardBody>
-              <CCard>
-                <CCardHeader>
-                  <strong>Basic Form</strong> Elements
-                </CCardHeader>
-                <CCardBody>
-                  <CForm>
-                    <CRow form class="form-group">
-                      <CCol tag="label" sm="5" class="col-form-label">
-                        Quản lý chiến dịch
-                      </CCol>
-                      <CCol sm="5">
-                        <CSwitch
-                          class="mr-1"
-                          color="info"
-                          :checked="true"
-                          shape="pill"
-                        />
-                      </CCol>
-                    </CRow>
-                    <CRow form class="form-group">
-                      <CCol tag="label" sm="5" class="col-form-label">
-                        Xem hiệu quả
-                      </CCol>
-                      <CCol sm="5">
-                        <CSwitch
-                          class="mr-1"
-                          color="info"
-                          :checked="true"
-                          shape="pill"
-                        />
-                      </CCol>
-                    </CRow>
-                    <CRow form class="form-group">
-                      <CCol tag="label" sm="5" class="col-form-label">
-                        Quản lý mẫu mô phỏng trong Creative Hub
-                      </CCol>
-                      <CCol sm="5">
-                        <CSwitch
-                          class="mr-1"
-                          color="info"
-                          :checked="true"
-                          shape="pill"
-                        />
-                      </CCol>
-                    </CRow>
-                    <CRow form class="form-group">
-                      <CCol tag="label" sm="5" class="col-form-label">
-                        Quản lý tài khoản quảng cáo
-                      </CCol>
-                      <CCol sm="5">
-                        <CSwitch
-                          class="mr-1"
-                          color="info"
-                          :checked="true"
-                          shape="pill"
-                        />
-                      </CCol>
-                    </CRow>
-                  </CForm>
-                </CCardBody>
-              </CCard>
-              <!--                      <CMedia :aside-image-props="{ height: 102 }">-->
+<!--        <template #details="{ item }">-->
+<!--          <CCollapse-->
+<!--            :show="Boolean(item._toggled)"-->
+<!--            :duration="collapseDuration"-->
+<!--          >-->
+<!--            <CCardBody>-->
+<!--              <CCard>-->
+<!--                <CCardHeader>-->
+<!--                  <strong>Basic Form</strong> Elements-->
+<!--                </CCardHeader>-->
+<!--                <CCardBody>-->
+<!--                  <CForm>-->
+<!--                    <CRow form class="form-group">-->
+<!--                      <CCol tag="label" sm="5" class="col-form-label">-->
+<!--                        Quản lý chiến dịch-->
+<!--                      </CCol>-->
+<!--                      <CCol sm="5">-->
+<!--                        <CSwitch-->
+<!--                          class="mr-1"-->
+<!--                          color="info"-->
+<!--                          :checked="true"-->
+<!--                          shape="pill"-->
+<!--                        />-->
+<!--                      </CCol>-->
+<!--                    </CRow>-->
+<!--                    <CRow form class="form-group">-->
+<!--                      <CCol tag="label" sm="5" class="col-form-label">-->
+<!--                        Xem hiệu quả-->
+<!--                      </CCol>-->
+<!--                      <CCol sm="5">-->
+<!--                        <CSwitch-->
+<!--                          class="mr-1"-->
+<!--                          color="info"-->
+<!--                          :checked="true"-->
+<!--                          shape="pill"-->
+<!--                        />-->
+<!--                      </CCol>-->
+<!--                    </CRow>-->
+<!--                    <CRow form class="form-group">-->
+<!--                      <CCol tag="label" sm="5" class="col-form-label">-->
+<!--                        Quản lý mẫu mô phỏng trong Creative Hub-->
+<!--                      </CCol>-->
+<!--                      <CCol sm="5">-->
+<!--                        <CSwitch-->
+<!--                          class="mr-1"-->
+<!--                          color="info"-->
+<!--                          :checked="true"-->
+<!--                          shape="pill"-->
+<!--                        />-->
+<!--                      </CCol>-->
+<!--                    </CRow>-->
+<!--                    <CRow form class="form-group">-->
+<!--                      <CCol tag="label" sm="5" class="col-form-label">-->
+<!--                        Quản lý tài khoản quảng cáo-->
+<!--                      </CCol>-->
+<!--                      <CCol sm="5">-->
+<!--                        <CSwitch-->
+<!--                          class="mr-1"-->
+<!--                          color="info"-->
+<!--                          :checked="true"-->
+<!--                          shape="pill"-->
+<!--                        />-->
+<!--                      </CCol>-->
+<!--                    </CRow>-->
+<!--                  </CForm>-->
+<!--                </CCardBody>-->
+<!--              </CCard>-->
+<!--              &lt;!&ndash;                      <CMedia :aside-image-props="{ height: 102 }">&ndash;&gt;-->
 
-              <!--                        <h4>-->
-              <!--                          {{ item.username }}-->
-              <!--                        </h4>-->
-              <!--                        <p class="text-muted">-->
-              <!--                          User since: {{ item.registered }}-->
-              <!--                        </p>-->
-              <!--                        <CButton size="sm" color="info" class="">-->
-              <!--                          User Settings-->
-              <!--                        </CButton>-->
-              <!--                        <CButton size="sm" color="danger" class="ml-1">-->
-              <!--                          Delete-->
-              <!--                        </CButton>-->
-              <!--                      </CMedia>-->
-            </CCardBody>
-          </CCollapse>
-        </template>
+<!--              &lt;!&ndash;                        <h4>&ndash;&gt;-->
+<!--              &lt;!&ndash;                          {{ item.username }}&ndash;&gt;-->
+<!--              &lt;!&ndash;                        </h4>&ndash;&gt;-->
+<!--              &lt;!&ndash;                        <p class="text-muted">&ndash;&gt;-->
+<!--              &lt;!&ndash;                          User since: {{ item.registered }}&ndash;&gt;-->
+<!--              &lt;!&ndash;                        </p>&ndash;&gt;-->
+<!--              &lt;!&ndash;                        <CButton size="sm" color="info" class="">&ndash;&gt;-->
+<!--              &lt;!&ndash;                          User Settings&ndash;&gt;-->
+<!--              &lt;!&ndash;                        </CButton>&ndash;&gt;-->
+<!--              &lt;!&ndash;                        <CButton size="sm" color="danger" class="ml-1">&ndash;&gt;-->
+<!--              &lt;!&ndash;                          Delete&ndash;&gt;-->
+<!--              &lt;!&ndash;                        </CButton>&ndash;&gt;-->
+<!--              &lt;!&ndash;                      </CMedia>&ndash;&gt;-->
+<!--            </CCardBody>-->
+<!--          </CCollapse>-->
+<!--        </template>-->
       </CDataTable>
     </CCardBody>
   </CCard>

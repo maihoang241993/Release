@@ -13,9 +13,6 @@ module.exports = {
     port: 8082,
     proxy: 'http://localhost:8080'
   },
-  // devServer: {
-  //   proxy: 'http://localhost:8082'
-  // },
   transpileDependencies: [
     '@coreui/utils',
     '@coreui/vue'

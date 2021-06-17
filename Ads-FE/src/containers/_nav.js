@@ -24,6 +24,12 @@ export default [
         to: '/accountauthorization',
         icon: 'cil-settings'
       },
+      {
+        _name: 'CSidebarNavItem',
+        name: 'Thêm đối tác',
+        to: '/addpartner',
+        icon: 'cil-settings'
+      },
       // {
       //   _name: 'CSidebarNavTitle',
       //   _children: ['WorkingSpace']

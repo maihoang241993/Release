@@ -21,6 +21,16 @@
           <slot name="body-wrapper">
             <div class="modal-body">
               <div v-if="isShowGrid">
+                <CInput
+                  v-if="viewModal == 'addPartner'"
+                  placeholder="ID Bm"
+                  v-model="dataModal.id"
+                  :is-valid="validator"
+                >
+                  <template #prepend-content
+                    ><CIcon name="cil-settings"
+                  /></template>
+                </CInput>
                 <CpmDataTable
                   :table-fields="tableFields"
                   :data-items="dataModalGrid"
@@ -226,35 +236,14 @@ export default {
         for (let i = 0; i < this.dataModalGrid.length; i++) {
           const item = this.dataModalGrid[i];
           if (item.isCheck) {
-            const data = {
-              account_id: "act_" + item.dataDetail.account_id,
-              business: item.dataMaster.idBm.id,
-              token: item.dataMaster.idBm.token,
-              userId: item.id,
-            };
-            let result = await FB.updateAuthenAccountPartner(data).then(
-              (response) => {
-                return true;
-              },
-              (error) => {
-                return false;
-                // this.updateStatus(1, "Đăng ký không thành công.");
-                this.content =
-                  (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                  error.message ||
-                  error.toString();
-              }
-            );
-            if (result) {
-              await this.updateStatus(item.id, "Thành công");
+            if (this.viewModal === "addPartner") {
+              await this.addPartner(item);
             } else {
-              await this.updateStatus(item.id, "Thất bại");
+              await this.updateAccountPartner(item);
             }
           }
         }
-        loader.hide()
+        loader.hide();
         return;
       }
       this.$emit("update:show", false, e, accept);
@@ -299,6 +288,60 @@ export default {
           item.statusAuthen = active;
         }
       });
+    },
+
+    addPartner: async function (dataObject) {
+      const data = {
+        account_id: dataObject.dataObject.detail.account_id,
+        token: dataObject.dataObject.master.token,
+        acting_brand_id: dataObject.dataObject.master.id, //TODO: get id bm
+        business: this.dataModal.id,
+      };
+      const result = await FB.addPartner(data).then(
+        (response) => {
+          return true;
+        },
+        (error) => {
+          return false;
+        }
+      );
+      if (result) {
+        this.updateStatus(
+          dataObject.dataObject.detail.account_id,
+          "Thành công"
+        );
+      } else {
+        this.updateStatus(dataObject.dataObject.detail.account_id, "Bỏ qua");
+      }
+    },
+
+    updateAccountPartner: async function (item) {
+      const data = {
+        account_id: "act_" + item.dataDetail.account_id,
+        business: item.dataMaster.idBm.id,
+        token: item.dataMaster.idBm.token,
+        userId: item.id,
+      };
+      let result = await FB.updateAuthenAccountPartner(data).then(
+        (response) => {
+          return true;
+        },
+        (error) => {
+          return false;
+          // this.updateStatus(1, "Đăng ký không thành công.");
+          this.content =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+      if (result) {
+        await this.updateStatus(item.id, "Thành công");
+      } else {
+        await this.updateStatus(item.id, "Thất bại");
+      }
     },
   },
   mounted: function () {
