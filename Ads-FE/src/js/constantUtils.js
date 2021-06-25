@@ -2,7 +2,7 @@
 // Server
 export const API_URL = 'https://kbook8888.com:8443/CPM-1.0.0/api/';
 // local
-// export const API_URL = 'http://localhost:8080/api/';
+//export const API_URL = 'https://localhost:8443/api/';
 
 export const FB_URL = "https://graph.facebook.com/v11.0/";
 
