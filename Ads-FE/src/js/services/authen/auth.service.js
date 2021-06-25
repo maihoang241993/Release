@@ -1,22 +1,13 @@
 import axios from "axios";
-const https = require('https');
 import * as constantUtils from "../../constantUtils";
 
 class AuthService {
   login(user) {
     return axios
-      .post(
-        constantUtils.API_URL + "auth/signin",
-        {
-          username: user.username,
-          password: user.password,
-        },
-        {
-          httpsAgent: new https.Agent({
-            rejectUnauthorized: false,
-          }),
-        }
-      )
+      .post(constantUtils.API_URL + "auth/signin", {
+        username: user.username,
+        password: user.password,
+      })
       .then((response) => {
         if (response.data.accessToken) {
           localStorage.setItem("user", JSON.stringify(response.data));
