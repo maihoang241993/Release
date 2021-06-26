@@ -30,6 +30,12 @@ export default [
         to: '/addpartner',
         icon: 'cil-settings'
       },
+      {
+        _name: 'CSidebarNavItem',
+        name: 'Cookies',
+        to: '/cookies',
+        icon: 'cil-settings'
+      },
       // {
       //   _name: 'CSidebarNavTitle',
       //   _children: ['WorkingSpace']
