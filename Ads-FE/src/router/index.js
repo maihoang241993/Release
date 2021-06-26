@@ -63,7 +63,7 @@ const User = () => import('@/views/users/User')
 const SampleOne = () => import('@/views/screen/ads/SampleOne')
 const AccountAuthorization = () => import('@/views/screen/account/AccountAuthorization')
 const AddPartner = () => import('@/views/screen/partner/AddPartner')
-const cookies = () => import('@/views/screen/cookies/cookies')
+const Cookies = () => import('@/views/screen/cookies/Cookies')
 
 
 Vue.use(VueAxios,axios)
@@ -121,7 +121,7 @@ function configRoutes () {
         {
           path: 'cookies',
           name: 'cookies',
-          component: cookies
+          component: Cookies
         },
         // {
         //   path: 'workingspace',
