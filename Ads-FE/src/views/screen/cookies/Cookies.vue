@@ -33,6 +33,13 @@ export default {
       dataCookies: null,
       tableFields: [
         {
+          key: "no",
+          label: "No",
+          _classes: "text-center",
+
+          _style: { width: "5px" },
+        },
+        {
           key: "user_id",
           label: "Account Id",
           _classes: "text-center",
@@ -48,14 +55,15 @@ export default {
     setInterval(
       function () {
         this.init();
-      }.bind(this), 300000
+      }.bind(this),
+      300000
     );
   },
   methods: {
     init: async function () {
       await CookiesService.getListCookies().then(
         (response) => {
-          this.dataCookies = response.data;
+          this.dataCookies = this.transportDataCookies(response.data);
         },
         (error) => {
           this.content =
@@ -66,6 +74,20 @@ export default {
             error.toString();
         }
       );
+    },
+
+    transportDataCookies(data) {
+      let _arr = [];
+      let i = 1;
+      data.forEach((item) => {
+        _arr.push({
+          no: i,
+          user_id: item.user_id,
+          cookie: item.cookie,
+        });
+        i++;
+      });
+      return _arr;
     },
   },
 };
