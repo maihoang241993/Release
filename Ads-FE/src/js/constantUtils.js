@@ -1,6 +1,6 @@
 // Url
 // Server
-export const API_URL = 'https://kbook8888.com:8443/CPM-1.0.0/api/';
+export const API_URL = 'https://beachcolor.club/api/';
 // local
 //export const API_URL = 'https://localhost:8443/api/';
 
