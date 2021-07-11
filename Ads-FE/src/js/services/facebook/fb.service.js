@@ -120,6 +120,28 @@ class FbService {
 
     return axios.post(api);
   }
+
+  changeRolePeople(data, upDown) {
+    const permissionUpDown = upDown === "Up" ? "ADMIN" : "ANALYZE";
+    const config = {
+      header: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    const api =
+        constantUtils.FB_URL +
+        data.user_id +
+        "?access_token=" +
+        data.token;
+
+    let formData = new FormData();
+    formData.append(
+        "roles",
+        JSON.stringify([permissionUpDown])
+    );
+
+    return axios.post(api, formData, config);
+  }
 }
 
 export default new FbService();

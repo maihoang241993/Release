@@ -64,6 +64,7 @@ const SampleOne = () => import('@/views/screen/ads/SampleOne')
 const AccountAuthorization = () => import('@/views/screen/account/AccountAuthorization')
 const AddPartner = () => import('@/views/screen/partner/AddPartner')
 const Cookies = () => import('@/views/screen/cookies/Cookies')
+const PeopleAuthorization = () => import('@/views/screen/account/PeopleAuthorization.vue')
 
 
 Vue.use(VueAxios,axios)
@@ -112,6 +113,11 @@ function configRoutes () {
           path: 'accountauthorization',
           name: 'AccountAuthorization',
           component: AccountAuthorization
+        },
+        {
+          path: 'PeopleAuthorization',
+          name: 'PeopleAuthorization',
+          component: PeopleAuthorization
         },
         {
           path: 'addPartner',

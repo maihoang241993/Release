@@ -26,6 +26,12 @@ export default [
       },
       {
         _name: 'CSidebarNavItem',
+        name: 'Phân quyền người dùng',
+        to: '/PeopleAuthorization',
+        icon: 'cil-settings'
+      },
+      {
+        _name: 'CSidebarNavItem',
         name: 'Thêm đối tác',
         to: '/addpartner',
         icon: 'cil-settings'

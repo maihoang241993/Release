@@ -28,6 +28,7 @@
                     type="password"
                     autocomplete="curent-password"
                     v-model="dataLogin.password"
+                    @keyup.enter="handleLogin"
                   >
                     <template #prepend-content
                       ><CIcon name="cil-lock-locked"
