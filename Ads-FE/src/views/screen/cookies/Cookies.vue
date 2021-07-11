@@ -52,12 +52,12 @@ export default {
   },
   created() {
     this.init();
-    setInterval(
-      function () {
-        this.init();
-      }.bind(this),
-      300000
-    );
+    // setInterval(
+    //   function () {
+    //     this.init();
+    //   }.bind(this),
+    //   300000
+    // );
   },
   methods: {
     init: async function () {
