@@ -2,7 +2,7 @@
   <div>
     <CAlert :show.sync="dismissCountDown" closeButton :color="colorMsg" fade>
       <strong>{{ messagesError.header }}</strong
-      ><br />
+      ><br/>
       <strong>{{ messagesError.body }}</strong>
     </CAlert>
     <CRow>
@@ -13,37 +13,37 @@
             <CRow>
               <CCol lg="3">
                 <CpmTable
-                  border
-                  hover
-                  :header="false"
-                  :items="dataBm"
-                  clickable-rows
-                  v-on:rowClick="rowsClickBm"
-                  :delete-row="false"
-                  :caption="'Tài khoản BM'"
+                    border
+                    hover
+                    :header="false"
+                    :items="dataBm"
+                    clickable-rows
+                    v-on:rowClick="rowsClickBm"
+                    :delete-row="false"
+                    :caption="'Tài khoản BM'"
                 >
                 </CpmTable>
               </CCol>
               <CCol lg="3">
                 <CpmTable
-                  border
-                  hover
-                  :header="false"
-                  :items="dataAds"
-                  :fields="fieldsAds"
-                  clickable-rows
-                  v-on:rowClick="rowsClickAds"
-                  :delete-row="false"
-                  :caption="'Tài khoản quảng cáo'"
+                    border
+                    hover
+                    :header="false"
+                    :items="dataAds"
+                    :fields="fieldsAds"
+                    clickable-rows
+                    v-on:rowClick="rowsClickAds"
+                    :delete-row="false"
+                    :caption="'Tài khoản quảng cáo'"
                 >
                 </CpmTable>
               </CCol>
               <CCol lg="6">
                 <CpmDataTable
-                  :data-items="dataUser"
-                  :table-fields="fields"
-                  :is-show-change-permission="true"
-                  v-on:updatePermission="updatePermission"
+                    :data-items="dataUser"
+                    :table-fields="fields"
+                    :is-show-change-permission="true"
+                    v-on:updatePermission="updatePermission"
                 >
                 </CpmDataTable>
                 <!--              <CpmTable-->
@@ -74,7 +74,7 @@ import CpmDataTable from "@/views/screen/base/table/CpmDataTable";
 
 export default {
   name: "AccountAuthorization",
-  components: { CpmDataTable, CpmTable },
+  components: {CpmDataTable, CpmTable},
   data() {
     return {
       dataBm: null,
@@ -82,16 +82,16 @@ export default {
       dataUser: null,
       content: null,
       fieldsAds: [
-        { key: "id", _classes: "d-none" },
-        { key: "idMaster", _classes: "d-none" },
-        { key: "token", _classes: "d-none" },
-        { key: "name", _classes: "text-left", _style: { width: "40%" } },
+        {key: "id", _classes: "d-none"},
+        {key: "idMaster", _classes: "d-none"},
+        {key: "token", _classes: "d-none"},
+        {key: "name", _classes: "text-left", _style: {width: "40%"}},
       ],
       fields: [
-        { key: "id", _classes: "d-none" },
+        {key: "id", _classes: "d-none"},
         {
           key: "checkbox",
-          _style: { width: "10px" },
+          _style: {width: "10px"},
           label: "",
           _classes: "col-md-1",
         },
@@ -99,9 +99,9 @@ export default {
           key: "name",
           label: "Name",
           _classes: "text-center",
-          _style: { width: "40%" },
+          _style: {width: "40%"},
         },
-        { key: "statusPermission", label: "Status", _classes: "text-center" },
+        {key: "statusPermission", label: "Status", _classes: "text-center"},
         // {
         //   key: "show_details",
         //   label: "",
@@ -125,17 +125,17 @@ export default {
   methods: {
     init: async function () {
       await BmService.getListBmMaster().then(
-        (response) => {
-          this.dataBm = this.transportDataMasterBm(response.data);
-        },
-        (error) => {
-          this.content =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
+          (response) => {
+            this.dataBm = this.transportDataMasterBm(response.data);
+          },
+          (error) => {
+            this.content =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+          }
       );
     },
 
@@ -167,38 +167,38 @@ export default {
       let result1;
       let result2;
       await FbService.getListAccount(data).then(
-        (response) => {
-          //data body
-          result1 = this.transportDataAds(dataBm, response.data.data);
-        },
-        (error) => {
-          this.content =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
+          (response) => {
+            //data body
+            result1 = this.transportDataAds(dataBm, response.data.data);
+          },
+          (error) => {
+            this.content =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+          }
       );
 
       await FbService.getListPartnerAccount(data).then(
-        (response) => {
-          //data body
-          if (
-            !objectUitls.isNullOrEmpty(response.data.data) &&
-            response.data.data.length > 0
-          ) {
-            result2 = this.transportDataAds(dataBm, response.data.data);
+          (response) => {
+            //data body
+            if (
+                !objectUitls.isNullOrEmpty(response.data.data) &&
+                response.data.data.length > 0
+            ) {
+              result2 = this.transportDataAds(dataBm, response.data.data);
+            }
+          },
+          (error) => {
+            this.content =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
           }
-        },
-        (error) => {
-          this.content =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
       );
       let dataAfter = null;
       if (!objectUitls.isNullOrEmpty(result1) && result1.length > 0) {
@@ -219,18 +219,18 @@ export default {
         idBm: dataAds.idMaster,
       };
       await FbService.getListUser(data).then(
-        (response) => {
-          //data body
-          this.dataUser = this.transportDataUser(dataAds, response.data.data);
-        },
-        (error) => {
-          this.content =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
+          (response) => {
+            //data body
+            this.dataUser = this.transportDataUser(dataAds, response.data.data);
+          },
+          (error) => {
+            this.content =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+          }
       );
     },
 
@@ -254,13 +254,15 @@ export default {
 
       // data body
       dataAds.forEach((item) => {
-        _re.push({
-          dataBm: dataBm,
-          id: item.id,
-          idMaster: item.business.id,
-          token: dataBm.idBm.token,
-          name: item.name,
-        });
+        if (!objectUitls.isNullOrEmpty(item.business)) {
+          _re.push({
+            dataBm: dataBm,
+            id: item.id,
+            idMaster: item.business.id,
+            token: dataBm.idBm.token,
+            name: item.name,
+          });
+        }
       });
 
       return _re;
@@ -286,21 +288,21 @@ export default {
             userId: item.id,
           };
           let result = await FbService.changePermissionAcount(
-            data,
-            flagChangePermission
+              data,
+              flagChangePermission
           ).then(
-            (response) => {
-              return true;
-            },
-            (error) => {
-              return false;
-              this.content =
-                (error.response &&
-                  error.response.data &&
-                  error.response.data.message) ||
-                error.message ||
-                error.toString();
-            }
+              (response) => {
+                return true;
+              },
+              (error) => {
+                return false;
+                this.content =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+              }
           );
           if (result) {
             await this.updateStatus(item.id, "Thành công");
@@ -313,9 +315,9 @@ export default {
       }
       loader.hide();
       this.showMessages(
-        0,
-        "Xử lý hoàn tất",
-        "Thành công: " + intSuccess + ", Thất Bại: " + intDanger
+          0,
+          "Xử lý hoàn tất",
+          "Thành công: " + intSuccess + ", Thất Bại: " + intDanger
       );
     },
 
