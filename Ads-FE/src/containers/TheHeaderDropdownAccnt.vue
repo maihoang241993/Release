@@ -76,7 +76,7 @@ export default {
   methods: {
     logoutClick() {
       this.$store.dispatch('auth/logout');
-      this.$router.push("/pages/login");
+      this.$router.push("/");
     }
   }
 }

@@ -6,7 +6,7 @@
     }
   ],
   "homepage": "https://kbook8888.com",
-  "copyright": "Copyright 2021",
+  "copyright": "Copyright kbook8888",
   "license": "MIT",
   "scripts": {
     "start": "node server.js",
@@ -32,6 +32,7 @@
     "vue-loading-overlay": "^3.4.2",
     "vue-router": "^3.5.1",
     "vue-simple-alert": "^1.1.1",
+    "vue-toastification": "^1.7.11",
     "vuex": "~3.6.2"
   },
   "devDependencies": {

@@ -9,6 +9,18 @@ export const auth = {
   namespaced: true,
   state: initialState,
   actions: {
+    checkAuthen({ commit }, accessToken) {
+      return AuthService.checkAuthen(accessToken).then(
+        status => {
+          commit('authenSuccess', status);
+          return Promise.resolve(status);
+        },
+        error => {
+          commit('authenFailure');
+          return Promise.reject(error);
+        }
+      );
+    },
     login({ commit }, user) {
       return AuthService.login(user).then(
         user => {
@@ -39,6 +51,14 @@ export const auth = {
     }
   },
   mutations: {
+    authenSuccess(state, status) {
+      state.status.loggedIn = true;
+      state.status = status;
+    },
+    authenFailure(state) {
+      state.status.loggedIn = false;
+      state.status = null;
+    },
     loginSuccess(state, user) {
       state.status.loggedIn = true;
       state.user = user;

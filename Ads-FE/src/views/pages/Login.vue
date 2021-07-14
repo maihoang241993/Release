@@ -1,11 +1,6 @@
 <template>
   <div class="c-app flex-row align-items-center">
     <CContainer>
-      <CAlert :show.sync="dismissCountDown" closeButton :color="colorMsg" fade>
-        <strong>{{ messagesError.header }}</strong
-        ><br />
-        <strong>{{ messagesError.body }}</strong>
-      </CAlert>
       <CRow class="justify-content-center">
         <CCol md="6">
           <CCardGroup>
@@ -78,50 +73,28 @@
 </template>
 
 <script>
+import * as constantUtils from "../../js/constantUtils";
 export default {
   name: "Login",
   data() {
     return {
-      dismissCountDown: 0,
-      messagesError: {
-        header: null,
-        body: null,
-      },
-      colorMsg: null,
       dataLogin: {
         username: null,
         password: null
-      },
-      message: null
+      }
     }
   },
   methods: {
     handleLogin: function () {
       this.$store.dispatch("auth/login", this.dataLogin).then(
           () => {
-            this.$router.push("/Dashboard");
+            this.$router.push("Home");
           },
           (error) => {
-            this.loading = false;
-            this.message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString();
-            this.showMessages(1,this.message)
+            this.$showMessages(constantUtils.MSG_BUS_001, this.msg4)
           }
       );
-    },
-
-    showMessages: async function (code, header, body = "") {
-      this.messagesError = {
-        header: header,
-        body: body,
-      };
-      this.colorMsg = code == 1 ? "danger" : "success";
-      this.dismissCountDown = 5;
-    },
+    }
   },
 };
 </script>

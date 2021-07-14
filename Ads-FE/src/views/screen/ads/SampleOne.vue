@@ -1,10 +1,5 @@
 <template>
   <div>
-    <CAlert :show.sync="dismissCountDown" closeButton :color="colorMsg" fade>
-      <strong>{{ messagesError.header }}</strong
-      ><br />
-      <strong>{{ messagesError.body }}</strong>
-    </CAlert>
     <CRow>
       <CCol sm="6" md="12">
         <CCard border-color="success">
@@ -13,25 +8,25 @@
             <CRow>
               <CCol lg="3">
                 <CpmTable
-                  border
-                  hover
-                  :header="false"
-                  :items="dataBm"
-                  clickable-rows
-                  v-on:rowClick="rowsClick"
-                  v-on:deleteClick="deleteClick"
+                    border
+                    hover
+                    :header="false"
+                    :items="dataBm"
+                    clickable-rows
+                    v-on:rowClick="rowsClick"
+                    v-on:deleteClick="deleteClick"
                 >
                   <template #header>
-                    <CIcon name="cil-grid" />
+                    <CIcon name="cil-grid"/>
                     Tài khoản BM
                     <div class="card-header-actions">
                       <CButton
-                        @click="openModalAdd"
-                        size="sm"
-                        block
-                        variant="outline"
-                        color="primary"
-                        >Thêm BM
+                          @click="openModalAdd"
+                          size="sm"
+                          block
+                          variant="outline"
+                          color="primary"
+                      >Thêm BM
                       </CButton>
                     </div>
                   </template>
@@ -41,42 +36,43 @@
                 <CRow>
                   <CCol lg="12">
                     <CCard>
-                      <CCardHeader> Thông tin BM </CCardHeader>
+                      <CCardHeader> Thông tin BM</CCardHeader>
                       <CCardBody>
                         <CInput
-                          label="ID"
-                          size="lg"
-                          horizontal
-                          plaintext
-                          v-model="info.id"
+                            label="ID"
+                            size="lg"
+                            horizontal
+                            plaintext
+                            v-model="info.id"
                         />
                         <CInput
-                          label="Tên"
-                          size="lg"
-                          horizontal
-                          plaintext
-                          v-model="info.name"
+                            label="Tên"
+                            size="lg"
+                            horizontal
+                            plaintext
+                            v-model="info.name"
                         />
                         <CInput
-                          label="Tổng"
-                          size="lg"
-                          horizontal
-                          plaintext
-                          v-model="info.sumTable"
+                            label="Tổng"
+                            size="lg"
+                            horizontal
+                            plaintext
+                            v-model="info.sumTable"
                         />
                         <CInput
-                          label="Token Full Quyền (Thêm tài khoản đối tác)"
-                          size="lg"
-                          placeholder="update token all"
-                          v-model="tokenFull"
-                          ref="testFocus"
+                            label="Token Full Quyền (Thêm tài khoản đối tác)"
+                            size="lg"
+                            placeholder="update token all"
+                            v-model="tokenFull"
+                            ref="testFocus"
                         >
                           <template #append>
                             <CButton
-                              type="submit"
-                              @click="updateTokenAll"
-                              color="primary"
-                              >Cập nhật</CButton
+                                type="submit"
+                                @click="updateTokenAll"
+                                color="primary"
+                            >Cập nhật
+                            </CButton
                             >
                           </template>
                         </CInput>
@@ -84,26 +80,28 @@
                       <CCardFooter>
                         <div style="float: right">
                           <CButtonToolbar
-                            aria-label="Toolbar with button groups and dropdown menu"
+                              aria-label="Toolbar with button groups and dropdown menu"
                           >
                             <CButtonGroup class="mx-1 d-sm-down-none">
                               <CButton
-                                color="info"
-                                :disabled="btnShare"
-                                @click="shareBm()"
-                                >Share</CButton
+                                  color="info"
+                                  :disabled="btnShare"
+                                  @click="shareBm()"
+                              >Share
+                              </CButton
                               >
                               <CButton color="info" :disabled="btnHistory"
-                                >History</CButton
+                              >History
+                              </CButton
                               >
                             </CButtonGroup>
                             <CDropdown
-                              toggler-text="Export"
-                              color="danger"
-                              class="mx-1"
-                              placement="bottom-end"
-                              button-content="Menu"
-                              :disabled="btnExport"
+                                toggler-text="Export"
+                                color="danger"
+                                class="mx-1"
+                                placement="bottom-end"
+                                button-content="Menu"
+                                :disabled="btnExport"
                             >
                               <CDropdownItem>Export dòng đã chọn</CDropdownItem>
                               <CDropdownItem>Export tất cả</CDropdownItem>
@@ -117,9 +115,9 @@
                 <CRow>
                   <CCol lg="12">
                     <CpmDataTable
-                      :data-items="dataDetail"
-                      :table-fields="tableFields"
-                      v-on:showModal="showModal"
+                        :data-items="dataDetail"
+                        :table-fields="tableFields"
+                        v-on:showModal="showModal"
                     >
                     </CpmDataTable>
                   </CCol>
@@ -131,13 +129,13 @@
       </CCol>
     </CRow>
     <ModalAdd
-      :title="titleModal"
-      :viewModal="viewModal"
-      color="info"
-      :show.sync="infoModal"
-      v-on:returnData="addBm"
-      :is-show-grid="isShowGrid"
-      :data-modal-grid="dataModalGrid"
+        :title="titleModal"
+        :viewModal="viewModal"
+        color="info"
+        :show.sync="infoModal"
+        v-on:returnData="addBm"
+        :is-show-grid="isShowGrid"
+        :data-modal-grid="dataModalGrid"
     >
     </ModalAdd>
   </div>
@@ -147,7 +145,7 @@
 import CpmTable from "../base/table/CpmTable";
 import * as constantUtils from "../../../js/constantUtils";
 import axios from "axios";
-import { freeSet } from "@coreui/icons";
+import {freeSet} from "@coreui/icons";
 import ModalAdd from "../base/modal/ModalAdd";
 import AlterMessages from "@/views/common/alterMessages";
 import BmService from "../../../js/services/bm/bm.service";
@@ -157,27 +155,26 @@ import CpmDataTable from "@/views/screen/base/table/CpmDataTable";
 
 export default {
   name: "SampleOne",
-  components: { CpmDataTable, AlterMessages, ModalAdd, CpmTable },
+  components: {CpmDataTable, AlterMessages, ModalAdd, CpmTable},
   freeSet,
   data() {
     return {
       dataDetail: null,
       tableFields: [
-        { key: "checkbox", label: "Chọn", _classes: "text-center" },
-        { key: "status", label: "Hoạt động", _classes: "text-center" },
-        { key: "account_id", label: "ID", _classes: "text-center" },
-        { key: "name", label: "Tên", _classes: "text-center" },
-        { key: "idbm", label: "ID BM", _classes: "text-center" },
-        { key: "currency", label: "Loại tiền", _classes: "text-center" },
-        { key: "card", label: "Thẻ", _classes: "text-center" },
-        { key: "active", label: "Trạng thái", _classes: "text-center" },
+        {key: "checkbox", label: "Chọn", _classes: "text-center"},
+        {key: "status", label: "Hoạt động", _classes: "text-center"},
+        {key: "account_id", label: "ID", _classes: "text-center"},
+        {key: "name", label: "Tên", _classes: "text-center"},
+        {key: "idbm", label: "ID BM", _classes: "text-center"},
+        {key: "currency", label: "Loại tiền", _classes: "text-center"},
+        {key: "card", label: "Thẻ", _classes: "text-center"},
+        {key: "active", label: "Trạng thái", _classes: "text-center"},
         {
           key: "addAcountPartner",
           label: "Thêm tài khoản (Đối tác)",
           _classes: "text-center",
         },
       ],
-      errors: [],
       data: null,
       dataBm: null,
       dataMaster: null,
@@ -195,18 +192,11 @@ export default {
         name: null,
         sumTable: null,
       },
-      dismissCountDown: 0,
-      messagesError: {
-        header: null,
-        body: null,
-      },
-      colorMsg: null,
 
       // button
       btnShare: true,
       btnHistory: true,
       btnExport: true,
-      error: null,
 
       tokenFull: null,
     };
@@ -226,17 +216,17 @@ export default {
   methods: {
     init: async function () {
       await BmService.getListBmMaster().then(
-        (response) => {
-          this.dataBm = this.transportDataMasterBm(response.data);
-        },
-        (error) => {
-          this.content =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
+          (response) => {
+            this.dataBm = this.transportDataMasterBm(response.data);
+          },
+          (error) => {
+            this.$showMessages(
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString(), this.msg4);
+          }
       );
 
       // Clear data bm detail
@@ -251,14 +241,18 @@ export default {
         token: this.dataMaster.idBm.tokenFull,
       };
       await FB.getAllListUser(data).then(
-        (response) => {
-          this.infoModal = true;
-          //data body
-          this.dataModalGrid = this.transportDataUser(item, response.data.data);
-        },
-        (error) => {
-          this.showMessages(1, "Lỗi", error.response.data.error.message);
-        }
+          (response) => {
+            this.infoModal = true;
+            //data body
+            this.dataModalGrid = this.transportDataUser(item, response.data.data);
+          },
+          (error) => {
+            this.$showMessages((error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+                error.message ||
+                error.toString(), this.msg4);
+          }
       );
     },
 
@@ -301,19 +295,16 @@ export default {
           idbm: id,
         };
         await BmService.deleleBmMaster(data).then(
-          (response) => {
-            this.showMessages(0, "Xóa thành công.");
-            // this.dataBm = this.transportDataMasterBm(response.data);
-          },
-          (error) => {
-            this.showMessages(1, "Xóa không thành công.");
-            this.content =
-              (error.response &&
-                error.response.data &&
-                error.response.data.message) ||
-              error.message ||
-              error.toString();
-          }
+            (response) => {
+              this.$showMessages(constantUtils.MSG_BUS_002, this.msg1)
+            },
+            (error) => {
+              this.$showMessages((error.response &&
+                  error.response.data &&
+                  error.response.data.message) ||
+                  error.message ||
+                  error.toString(), this.msg4);
+            }
         );
         await this.init();
       }
@@ -334,41 +325,39 @@ export default {
       let result1;
       let result2;
       await FB.getListAccount(data).then(
-        (response) => {
-          //data body
-          result1 = this.transportDataDetailBm(dataMaster, response.data.data);
-        },
-        (error) => {
-          this.content =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
+          (response) => {
+            //data body
+            result1 = this.transportDataDetailBm(dataMaster, response.data.data);
+          },
+          (error) => {
+            this.$showMessages((error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+                error.message ||
+                error.toString(), this.msg4);
+          }
       );
 
       await FB.getListPartnerAccount(data).then(
-        (response) => {
-          //data body
-          if (
-            !objectUitls.isNullOrEmpty(response.data.data) &&
-            response.data.data.length > 0
-          ) {
-            result2 = this.transportDataDetailBm(
-              dataMaster,
-              response.data.data
-            );
+          (response) => {
+            //data body
+            if (
+                !objectUitls.isNullOrEmpty(response.data.data) &&
+                response.data.data.length > 0
+            ) {
+              result2 = this.transportDataDetailBm(
+                  dataMaster,
+                  response.data.data
+              );
+            }
+          },
+          (error) => {
+            this.$showMessages((error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+                error.message ||
+                error.toString(), this.msg4);
           }
-        },
-        (error) => {
-          this.content =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
       );
       let dataAfter = null;
       if (!objectUitls.isNullOrEmpty(result1) && result1.length > 0) {
@@ -395,12 +384,11 @@ export default {
           account_id: item.account_id,
           name: item.name,
           idbm: !objectUitls.isNullOrEmpty(item.business)
-            ? item.business.id
-            : "",
+              ? item.business.id
+              : "",
           currency: item.currency,
           card: this.getFundingSourceDetails(item),
           active: "",
-          // avatar: { url: item.profile_picture_uribm, status: status },
         });
       });
       // data header
@@ -415,7 +403,7 @@ export default {
       let _reStr = "";
       if (!objectUitls.isNullOrEmpty(item.funding_source_details)) {
         if (
-          !objectUitls.isNullOrEmpty(item.funding_source_details.display_string)
+            !objectUitls.isNullOrEmpty(item.funding_source_details.display_string)
         ) {
           _reStr = item.funding_source_details.display_string;
         }
@@ -453,10 +441,10 @@ export default {
     },
 
     addBm: async function (component, accept, view) {
-      if (accept == true) {
-        if (view == "addBm") {
+      if (accept === true) {
+        if (view === "addBm") {
           const result = await this.getBmFb(component);
-          if (result != null || result !== undefined) {
+          if (!objectUitls.isNullOrEmpty(result)) {
             await this.UpdateBm(result.data, component.dataModal);
           }
         } else {
@@ -468,30 +456,34 @@ export default {
     getBmFb: async function (component) {
       let data = component.dataModal;
       let path =
-        constantUtils.FB_URL +
-        data.id +
-        "?" +
-        constantUtils.access_token +
-        "=" +
-        data.token +
-        "&fields=" +
-        constantUtils.paramFb.verification_status +
-        "," +
-        constantUtils.paramFb.profile_picture_uri +
-        "," +
-        constantUtils.paramFb.id +
-        "," +
-        constantUtils.paramFb.name +
-        "," +
-        constantUtils.paramFb.primary_page;
+          constantUtils.FB_URL +
+          data.id +
+          "?" +
+          constantUtils.access_token +
+          "=" +
+          data.token +
+          "&fields=" +
+          constantUtils.paramFb.verification_status +
+          "," +
+          constantUtils.paramFb.profile_picture_uri +
+          "," +
+          constantUtils.paramFb.id +
+          "," +
+          constantUtils.paramFb.name +
+          "," +
+          constantUtils.paramFb.primary_page;
       return await axios
-        .get(path)
-        .then((res) => {
-          return res;
-        })
-        .catch((error) => {
-          this.showMessages(1, "Sai thông tin vui lòng đăng ký lại.");
-        });
+          .get(path)
+          .then((res) => {
+            return res;
+          })
+          .catch((error) => {
+            this.$showMessages((error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+                error.message ||
+                error.toString(), this.msg4);
+          });
     },
 
     UpdateBm: async function (dataResponse, modal) {
@@ -505,30 +497,18 @@ export default {
       };
 
       await BmService.addBmMaster(data).then(
-        (response) => {
-          this.showMessages(0, "Đăng ký thành công.");
-          // this.dataBm = this.transportDataMasterBm(response.data);
-        },
-        (error) => {
-          this.showMessages(1, "Đăng ký không thành công.");
-          this.content =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
+          (response) => {
+            this.$showMessages(constantUtils.MSG_BUS_002, this.msg1)
+          },
+          (error) => {
+            this.$showMessages((error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+                error.message ||
+                error.toString(), this.msg4);
+          }
       );
       await this.init();
-    },
-
-    showMessages: async function (code, header, body = "") {
-      this.messagesError = {
-        header: header,
-        body: body,
-      };
-      this.colorMsg = code == 1 ? "danger" : "success";
-      this.dismissCountDown = 5;
     },
 
     enableButton: function (isEnable) {
@@ -541,7 +521,7 @@ export default {
       const dataShare = component.dataModal;
       let result;
       for (let i = 0; i < this.dataDetail.length; i++) {
-        if (this.dataDetail[i].isCheck == true) {
+        if (this.dataDetail[i].isCheck === true) {
           const data = {
             account_id: this.dataDetail[i].account_id,
             token: this.dataMaster.idBm.token,
@@ -549,12 +529,12 @@ export default {
             business: dataShare.id,
           };
           result = await FB.addPartner(data).then(
-            (response) => {
-              return true;
-            },
-            (error) => {
-              return false;
-            }
+              (response) => {
+                return true;
+              },
+              (error) => {
+                return false;
+              }
           );
           if (result) {
             this.updateStatusShare(this.dataDetail[i].account_id, "Thành công");
@@ -563,7 +543,7 @@ export default {
           }
         }
       }
-      this.showMessages(0, "Xử lý hoàn tất");
+      this.$showMessages(constantUtils.MSG_BUS_004, this.msg1)
     },
 
     updateStatusShare: async function (accountId, active) {
@@ -581,18 +561,16 @@ export default {
           token_bm_full: this.tokenFull,
         };
         await BmService.updateTokenAll(data).then(
-          (response) => {
-            this.showMessages(0, "Cập nhật thành công.");
-          },
-          (error) => {
-            this.showMessages(1, "Cập nhật không thành công.");
-            this.content =
-              (error.response &&
-                error.response.data &&
-                error.response.data.message) ||
-              error.message ||
-              error.toString();
-          }
+            (response) => {
+              this.$showMessages(constantUtils.MSG_BUS_002, this.msg1);
+            },
+            (error) => {
+              this.$showMessages((error.response &&
+                  error.response.data &&
+                  error.response.data.message) ||
+                  error.message ||
+                  error.toString(), this.msg4);
+            }
         );
 
         await this.init();

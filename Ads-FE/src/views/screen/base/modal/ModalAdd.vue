@@ -1,10 +1,10 @@
 <template>
   <div>
     <div
-      :class="modalClasses"
-      tabindex="-1"
-      role="dialog"
-      @click="modalClick($event)"
+        :class="modalClasses"
+        tabindex="-1"
+        role="dialog"
+        @click="modalClick($event)"
     >
       <div :class="dialogClasses" role="document">
         <div :class="contentClasses">
@@ -14,7 +14,7 @@
                 <h5 class="modal-title">
                   {{ title }}
                 </h5>
-                <CButtonClose @click="hide($event)" />
+                <CButtonClose @click="hide($event)"/>
               </slot>
             </header>
           </slot>
@@ -22,52 +22,59 @@
             <div class="modal-body">
               <div v-if="isShowGrid">
                 <CInput
-                  v-if="viewModal == 'addPartner'"
-                  placeholder="ID Bm"
-                  v-model="dataModal.id"
-                  :is-valid="validator"
+                    v-if="viewModal == 'addPartner'"
+                    placeholder="ID Bm"
+                    v-model="dataModal.id"
+                    :is-valid="validator"
                 >
                   <template #prepend-content
-                    ><CIcon name="cil-settings"
-                  /></template>
+                  >
+                    <CIcon name="cil-settings"
+                    />
+                  </template>
                 </CInput>
                 <CpmDataTable
-                  :table-fields="tableFields"
-                  :data-items="dataModalGrid"
-                  :heightGrid="'600'"
+                    :table-fields="tableFields"
+                    :data-items="dataModalGrid"
+                    :heightGrid="'600'"
                 >
                 </CpmDataTable>
               </div>
               <div v-if="!isShowGrid">
                 <CForm>
                   <CInput
-                    v-if="viewModal == 'addBm'"
-                    :is-valid="validator"
-                    placeholder="Name bm"
-                    v-model="dataModal.name"
+                      v-if="viewModal == 'addBm'"
+                      :is-valid="validator"
+                      placeholder="Name bm"
+                      v-model="dataModal.name"
                   >
                     <template #prepend-content>
                       <CIcon name="cil-user"
-                    /></template>
+                      />
+                    </template>
                   </CInput>
                   <CInput
-                    placeholder="Id bm"
-                    v-model="dataModal.id"
-                    :is-valid="validator"
+                      placeholder="Id bm"
+                      v-model="dataModal.id"
+                      :is-valid="validator"
                   >
                     <template #prepend-content
-                      ><CIcon name="cil-settings"
-                    /></template>
+                    >
+                      <CIcon name="cil-settings"
+                      />
+                    </template>
                   </CInput>
                   <CInput
-                    v-if="viewModal == 'addBm'"
-                    placeholder="Token"
-                    v-model="dataModal.token"
-                    :is-valid="validator"
+                      v-if="viewModal == 'addBm'"
+                      placeholder="Token"
+                      v-model="dataModal.token"
+                      :is-valid="validator"
                   >
                     <template #prepend-content
-                      ><CIcon name="cil-settings"
-                    /></template>
+                    >
+                      <CIcon name="cil-settings"
+                      />
+                    </template>
                   </CInput>
                 </CForm>
               </div>
@@ -77,16 +84,16 @@
             <footer class="modal-footer">
               <slot name="footer">
                 <button
-                  type="button"
-                  class="btn btn-secondary"
-                  @click="hide($event)"
+                    type="button"
+                    class="btn btn-secondary"
+                    @click="hide($event)"
                 >
                   Cancel
                 </button>
                 <button
-                  type="button"
-                  :class="btnClasses"
-                  @click="hide($event, true)"
+                    type="button"
+                    :class="btnClasses"
+                    @click="hide($event, true)"
                 >
                   OK
                 </button>
@@ -97,8 +104,8 @@
       </div>
     </div>
     <div
-      v-if="backdrop && (visible || isTransitioning)"
-      :class="backdropClasses"
+        v-if="backdrop && (visible || isTransitioning)"
+        :class="backdropClasses"
     ></div>
   </div>
 </template>
@@ -149,17 +156,17 @@ export default {
   data() {
     return {
       tableFields: [
-        { key: "dataMaster", _classes: "d-none" },
-        { key: "datadataDetail", _classes: "d-none" },
+        {key: "dataMaster", _classes: "d-none"},
+        {key: "datadataDetail", _classes: "d-none"},
         {
           key: "checkbox",
-          _style: { width: "10px" },
+          _style: {width: "10px"},
           label: "",
           _classes: "col-md-1",
         },
-        { key: "account_id", label: "ID", _classes: "d-none" },
-        { key: "name", label: "Tên", _classes: "text-center" },
-        { key: "statusAuthen", label: "Status", _classes: "text-center" },
+        {key: "account_id", label: "ID", _classes: "d-none"},
+        {key: "name", label: "Tên", _classes: "text-center"},
+        {key: "statusAuthen", label: "Status", _classes: "text-center"},
       ],
       visible: this.show,
       isTransitioning: false,
@@ -298,17 +305,17 @@ export default {
         business: this.dataModal.id,
       };
       const result = await FB.addPartner(data).then(
-        (response) => {
-          return true;
-        },
-        (error) => {
-          return false;
-        }
+          (response) => {
+            return true;
+          },
+          (error) => {
+            return false;
+          }
       );
       if (result) {
         this.updateStatus(
-          dataObject.dataObject.detail.account_id,
-          "Thành công"
+            dataObject.dataObject.detail.account_id,
+            "Thành công"
         );
       } else {
         this.updateStatus(dataObject.dataObject.detail.account_id, "Bỏ qua");
@@ -323,19 +330,18 @@ export default {
         userId: item.id,
       };
       let result = await FB.updateAuthenAccountPartner(data).then(
-        (response) => {
-          return true;
-        },
-        (error) => {
-          return false;
-          // this.updateStatus(1, "Đăng ký không thành công.");
-          this.content =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
+          (response) => {
+            return true;
+          },
+          (error) => {
+            this.$showMessages(
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString(), this.msg4);
+            return false;
+          }
       );
       if (result) {
         await this.updateStatus(item.id, "Thành công");

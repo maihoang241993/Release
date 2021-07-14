@@ -1,10 +1,5 @@
 <template>
   <div>
-    <CAlert :show.sync="dismissCountDown" closeButton :color="colorMsg" fade>
-      <strong>{{ messagesError.header }}</strong
-      ><br/>
-      <strong>{{ messagesError.body }}</strong>
-    </CAlert>
     <CRow>
       <CCol sm="6" md="12">
         <CCard border-color="success">
@@ -80,7 +75,6 @@ export default {
       dataBm: null,
       dataAds: null,
       dataUser: null,
-      content: null,
       fieldsAds: [
         {key: "id", _classes: "d-none"},
         {key: "idMaster", _classes: "d-none"},
@@ -102,21 +96,7 @@ export default {
           _style: {width: "40%"},
         },
         {key: "statusPermission", label: "Status", _classes: "text-center"},
-        // {
-        //   key: "show_details",
-        //   label: "",
-        //   _style: { width: "1%" },
-        //   sorter: false,
-        //   filter: false,
-        // },
       ],
-
-      messagesError: {
-        header: null,
-        body: null,
-      },
-      colorMsg: null,
-      dismissCountDown: 0,
     };
   },
   created: async function () {
@@ -129,12 +109,12 @@ export default {
             this.dataBm = this.transportDataMasterBm(response.data);
           },
           (error) => {
-            this.content =
+            this.$showMessages(
                 (error.response &&
                     error.response.data &&
                     error.response.data.message) ||
                 error.message ||
-                error.toString();
+                error.toString(), this.msg4);
           }
       );
     },
@@ -172,12 +152,12 @@ export default {
             result1 = this.transportDataAds(dataBm, response.data.data);
           },
           (error) => {
-            this.content =
+            this.$showMessages(
                 (error.response &&
                     error.response.data &&
                     error.response.data.message) ||
                 error.message ||
-                error.toString();
+                error.toString(), this.msg4);
           }
       );
 
@@ -192,12 +172,12 @@ export default {
             }
           },
           (error) => {
-            this.content =
+            this.$showMessages(
                 (error.response &&
                     error.response.data &&
                     error.response.data.message) ||
                 error.message ||
-                error.toString();
+                error.toString(), this.msg4);
           }
       );
       let dataAfter = null;
@@ -224,12 +204,12 @@ export default {
             this.dataUser = this.transportDataUser(dataAds, response.data.data);
           },
           (error) => {
-            this.content =
+            this.$showMessages(
                 (error.response &&
                     error.response.data &&
                     error.response.data.message) ||
                 error.message ||
-                error.toString();
+                error.toString(), this.msg4);
           }
       );
     },
@@ -295,13 +275,13 @@ export default {
                 return true;
               },
               (error) => {
-                return false;
-                this.content =
+                this.$showMessages(
                     (error.response &&
                         error.response.data &&
                         error.response.data.message) ||
                     error.message ||
-                    error.toString();
+                    error.toString(), this.msg4);
+                return false;
               }
           );
           if (result) {
@@ -314,11 +294,9 @@ export default {
         }
       }
       loader.hide();
-      this.showMessages(
-          0,
-          "Xử lý hoàn tất",
-          "Thành công: " + intSuccess + ", Thất Bại: " + intDanger
-      );
+      this.$showMessages("Xử lý hoàn tất\nThành công: "
+          + intSuccess + "\nThất Bại: " + intDanger
+          , this.msg3);
     },
 
     updateStatus: async function (accountId, active) {
@@ -327,15 +305,6 @@ export default {
           item.statusPermission = active;
         }
       });
-    },
-
-    showMessages: async function (code, header, body = "") {
-      this.messagesError = {
-        header: header,
-        body: body,
-      };
-      this.colorMsg = code == 1 ? "danger" : "success";
-      this.dismissCountDown = 5;
     },
   },
 };

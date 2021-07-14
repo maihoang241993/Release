@@ -1,144 +1,62 @@
 <template>
   <CCard>
     <CCardHeader>
-      <slot name="header"> <CIcon name="cil-grid" /> {{ caption }} </slot>
+      <slot name="header">
+        <CIcon name="cil-grid"/>
+        {{ caption }}
+      </slot>
     </CCardHeader>
     <CCardBody
-      style="height: 1560px; display: block; overflow-y: scroll; width: 100%"
+        style="height: 1560px; display: block; overflow-y: scroll; width: 100%"
     >
       <CDataTable
-        :hover="hover"
-        :striped="striped"
-        :border="border"
-        :small="small"
-        :fixed="fixed"
-        :items="items"
-        :fields="fields"
-        :items-per-page="small ? 10 : 14"
-        :dark="dark"
-        :header="header"
-        :pagination="pagination"
-        :clickableRows="clickableRows"
-        v-on:row-clicked="rowClicked"
+          :hover="hover"
+          :striped="striped"
+          :border="border"
+          :small="small"
+          :fixed="fixed"
+          :items="items"
+          :fields="fields"
+          :items-per-page="small ? 10 : 14"
+          :dark="dark"
+          :header="header"
+          :pagination="pagination"
+          :clickableRows="clickableRows"
+          v-on:row-clicked="rowClicked"
       >
         <td
-          slot="idBm"
-          slot-scope="{ item }"
-          :class="deleteRow ? 'containerHover' : ''"
+            slot="idBm"
+            slot-scope="{ item }"
+            :class="deleteRow ? 'containerHover' : ''"
         >
           <div class="c-avatar" style="float: left">
-            <img :src="item.idBm.url" class="c-avatar-img" alt="" />
+            <img :src="item.idBm.url" class="c-avatar-img" alt=""/>
             <span
-              class="c-avatar-status"
-              :class="`bg-${item.idBm.status || 'secondary'}`"
+                class="c-avatar-status"
+                :class="`bg-${item.idBm.status || 'secondary'}`"
             ></span>
           </div>
           <CLink class="overlay" @click="deleteClick(item.idBm.id)">
-            <CIcon name="cil-trash" />
+            <CIcon name="cil-trash"/>
           </CLink>
           <div style="width: 200px; float: left; word-wrap: break-word">
-            <span>ID: {{ item.idBm.id }}<br /></span>
+            <span>ID: {{ item.idBm.id }}<br/></span>
             <span>Name: {{ item.idBm.name }}</span>
           </div>
         </td>
         <template #show_details="{ item, index }">
           <td class="py-2">
             <CButton
-              color="primary"
-              variant="outline"
-              square
-              size="sm"
-              @click="toggleDetails(item, index)"
+                color="primary"
+                variant="outline"
+                square
+                size="sm"
+                @click="toggleDetails(item, index)"
             >
               {{ Boolean(item._toggled) ? "Hide" : "Show" }}
             </CButton>
           </td>
         </template>
-<!--        <template #details="{ item }">-->
-<!--          <CCollapse-->
-<!--            :show="Boolean(item._toggled)"-->
-<!--            :duration="collapseDuration"-->
-<!--          >-->
-<!--            <CCardBody>-->
-<!--              <CCard>-->
-<!--                <CCardHeader>-->
-<!--                  <strong>Basic Form</strong> Elements-->
-<!--                </CCardHeader>-->
-<!--                <CCardBody>-->
-<!--                  <CForm>-->
-<!--                    <CRow form class="form-group">-->
-<!--                      <CCol tag="label" sm="5" class="col-form-label">-->
-<!--                        Quản lý chiến dịch-->
-<!--                      </CCol>-->
-<!--                      <CCol sm="5">-->
-<!--                        <CSwitch-->
-<!--                          class="mr-1"-->
-<!--                          color="info"-->
-<!--                          :checked="true"-->
-<!--                          shape="pill"-->
-<!--                        />-->
-<!--                      </CCol>-->
-<!--                    </CRow>-->
-<!--                    <CRow form class="form-group">-->
-<!--                      <CCol tag="label" sm="5" class="col-form-label">-->
-<!--                        Xem hiệu quả-->
-<!--                      </CCol>-->
-<!--                      <CCol sm="5">-->
-<!--                        <CSwitch-->
-<!--                          class="mr-1"-->
-<!--                          color="info"-->
-<!--                          :checked="true"-->
-<!--                          shape="pill"-->
-<!--                        />-->
-<!--                      </CCol>-->
-<!--                    </CRow>-->
-<!--                    <CRow form class="form-group">-->
-<!--                      <CCol tag="label" sm="5" class="col-form-label">-->
-<!--                        Quản lý mẫu mô phỏng trong Creative Hub-->
-<!--                      </CCol>-->
-<!--                      <CCol sm="5">-->
-<!--                        <CSwitch-->
-<!--                          class="mr-1"-->
-<!--                          color="info"-->
-<!--                          :checked="true"-->
-<!--                          shape="pill"-->
-<!--                        />-->
-<!--                      </CCol>-->
-<!--                    </CRow>-->
-<!--                    <CRow form class="form-group">-->
-<!--                      <CCol tag="label" sm="5" class="col-form-label">-->
-<!--                        Quản lý tài khoản quảng cáo-->
-<!--                      </CCol>-->
-<!--                      <CCol sm="5">-->
-<!--                        <CSwitch-->
-<!--                          class="mr-1"-->
-<!--                          color="info"-->
-<!--                          :checked="true"-->
-<!--                          shape="pill"-->
-<!--                        />-->
-<!--                      </CCol>-->
-<!--                    </CRow>-->
-<!--                  </CForm>-->
-<!--                </CCardBody>-->
-<!--              </CCard>-->
-<!--              &lt;!&ndash;                      <CMedia :aside-image-props="{ height: 102 }">&ndash;&gt;-->
-
-<!--              &lt;!&ndash;                        <h4>&ndash;&gt;-->
-<!--              &lt;!&ndash;                          {{ item.username }}&ndash;&gt;-->
-<!--              &lt;!&ndash;                        </h4>&ndash;&gt;-->
-<!--              &lt;!&ndash;                        <p class="text-muted">&ndash;&gt;-->
-<!--              &lt;!&ndash;                          User since: {{ item.registered }}&ndash;&gt;-->
-<!--              &lt;!&ndash;                        </p>&ndash;&gt;-->
-<!--              &lt;!&ndash;                        <CButton size="sm" color="info" class="">&ndash;&gt;-->
-<!--              &lt;!&ndash;                          User Settings&ndash;&gt;-->
-<!--              &lt;!&ndash;                        </CButton>&ndash;&gt;-->
-<!--              &lt;!&ndash;                        <CButton size="sm" color="danger" class="ml-1">&ndash;&gt;-->
-<!--              &lt;!&ndash;                          Delete&ndash;&gt;-->
-<!--              &lt;!&ndash;                        </CButton>&ndash;&gt;-->
-<!--              &lt;!&ndash;                      </CMedia>&ndash;&gt;-->
-<!--            </CCardBody>-->
-<!--          </CCollapse>-->
-<!--        </template>-->
       </CDataTable>
     </CCardBody>
   </CCard>
@@ -157,7 +75,7 @@ export default {
     fields: {
       type: Array,
       default: () => {
-        return [{ key: "idBm", _classes: "text-center" }];
+        return [{key: "idBm", _classes: "text-center"}];
       },
     },
     caption: {
@@ -181,23 +99,23 @@ export default {
   methods: {
     deleteClick(id) {
       this.$confirm("Bạn muốn xóa " + id, "Xác nhận", "warning")
-        .then((res) => {
-          this.$emit("deleteClick", true, id);
-        })
-        .catch((e) => {
-          this.$emit("deleteClick", false, id);
-        });
+          .then((res) => {
+            this.$emit("deleteClick", true, id);
+          })
+          .catch((e) => {
+            this.$emit("deleteClick", false, id);
+          });
     },
     getBadge(status) {
       return status === "Active"
-        ? "success"
-        : status === "Inactive"
-        ? "secondary"
-        : status === "Pending"
-        ? "warning"
-        : status === "Banned"
-        ? "danger"
-        : "primary";
+          ? "success"
+          : status === "Inactive"
+              ? "secondary"
+              : status === "Pending"
+                  ? "warning"
+                  : status === "Banned"
+                      ? "danger"
+                      : "primary";
     },
 
     rowClicked(item) {
@@ -228,6 +146,7 @@ export default {
   width: auto;
   max-width: 300px;
 }
+
 .containerHover:hover .overlay {
   opacity: 1;
 }

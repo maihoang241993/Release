@@ -8,9 +8,9 @@
             <CRow>
               <CCol>
                 <CpmDataTable
-                  :data-items="dataCookies"
-                  :table-fields="tableFields"
-                  :is-show-card-header="false"
+                    :data-items="dataCookies"
+                    :table-fields="tableFields"
+                    :is-show-card-header="false"
                 >
                 </CpmDataTable>
               </CCol>
@@ -25,9 +25,10 @@
 <script>
 import CpmDataTable from "@/views/screen/base/table/CpmDataTable";
 import CookiesService from "../../../js/services/cookies/cookies.service";
+
 export default {
   name: "Cookies",
-  components: { CpmDataTable },
+  components: {CpmDataTable},
   data() {
     return {
       dataCookies: null,
@@ -37,42 +38,36 @@ export default {
           label: "No",
           _classes: "text-center",
 
-          _style: { width: "5px" },
+          _style: {width: "5px"},
         },
         {
           key: "user_id",
           label: "Account Id",
           _classes: "text-center",
 
-          _style: { width: "10px" },
+          _style: {width: "10px"},
         },
-        { key: "cookie", label: "Cookie", _classes: "text-center" },
+        {key: "cookie", label: "Cookie", _classes: "text-center"},
       ],
     };
   },
   created() {
     this.init();
-    // setInterval(
-    //   function () {
-    //     this.init();
-    //   }.bind(this),
-    //   300000
-    // );
   },
   methods: {
     init: async function () {
       await CookiesService.getListCookies().then(
-        (response) => {
-          this.dataCookies = this.transportDataCookies(response.data);
-        },
-        (error) => {
-          this.content =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
+          (response) => {
+            this.dataCookies = this.transportDataCookies(response.data);
+          },
+          (error) => {
+            this.$showMessages(
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString(), this.msg4);
+          }
       );
     },
 

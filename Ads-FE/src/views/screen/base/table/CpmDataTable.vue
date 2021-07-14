@@ -128,20 +128,6 @@ export default {
       } else {
         this.enableButton(true);
       }
-
-      // if (
-      //   !objectUitls.isNullOrEmpty(this.dataItems) &&
-      //   this.dataItems.length > 0
-      // ) {
-      //   this.dataItems.forEach((item) => {
-      //     if (item.isCheck) {
-      //       this.isDisabelPermission = false;
-      //       return;
-      //     }
-      //   });
-      // } else {
-      //   this.isDisabelPermission = true;
-      // }
     },
   },
   data() {

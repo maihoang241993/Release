@@ -15,3 +15,24 @@ export const paramFb = {
   primary_page: "primary_page",
 };
 export const access_token = "access_token";
+
+export const TYPE_MSG = {
+  SUCCESS: "success",
+  INFO: "info",
+  WARNING: "warning",
+  ERROR: "error",
+}
+
+// Messages code
+
+// System
+export const MSG_ERROR_502 = "Kết nối máy chủ thất bại.\nVui lòng liên hệ với quản trị viên."
+
+// Bussiness
+export const MSG_BUS_001 = "Đăng nhập thất bại.\nVui lòng kiểm tra lại tài khoản mật khẩu."
+export const MSG_BUS_002 = "Thực hiện thành công."
+export const MSG_BUS_003 = "Thực hiện thất bại"
+export const MSG_BUS_004 = "Xử lý hoàn tất."
+
+
+

@@ -1,10 +1,5 @@
 <template>
   <div>
-    <CAlert :show.sync="dismissCountDown" closeButton :color="colorMsg" fade>
-      <strong>{{ messagesError.header }}</strong
-      ><br />
-      <strong>{{ messagesError.body }}</strong>
-    </CAlert>
     <CRow>
       <CCol sm="6" md="12">
         <CCard border-color="success">
@@ -32,16 +27,6 @@
                     v-on:updatePermission="updatePermission"
                 >
                 </CpmDataTable>
-                <!--              <CpmTable-->
-                <!--                :fields="fields"-->
-                <!--                hover-->
-                <!--                :header="false"-->
-                <!--                :items="dataUser"-->
-                <!--                clickable-rows-->
-                <!--                :delete-row="false"-->
-                <!--                :caption="'Phân quyền người dùng'"-->
-                <!--              >-->
-                <!--              </CpmTable>-->
               </CCol>
             </CRow>
           </CCardBody>
@@ -61,17 +46,16 @@ import CpmDataTable from "@/views/screen/base/table/CpmDataTable";
 
 export default {
   name: "PeopleAuthorization",
-  components: { CpmDataTable, CpmTable },
+  components: {CpmDataTable, CpmTable},
   data() {
     return {
       dataBm: null,
       dataUser: null,
-      content: null,
       fields: [
-        { key: "id", _classes: "d-none" },
+        {key: "id", _classes: "d-none"},
         {
           key: "checkbox",
-          _style: { width: "10px" },
+          _style: {width: "10px"},
           label: "",
           _classes: "col-md-1",
         },
@@ -79,24 +63,10 @@ export default {
           key: "name",
           label: "Name",
           _classes: "text-center",
-          _style: { width: "40%" },
+          _style: {width: "40%"},
         },
-        { key: "statusPermission", label: "Status", _classes: "text-center" },
-        // {
-        //   key: "show_details",
-        //   label: "",
-        //   _style: { width: "1%" },
-        //   sorter: false,
-        //   filter: false,
-        // },
-      ],
-
-      messagesError: {
-        header: null,
-        body: null,
-      },
-      colorMsg: null,
-      dismissCountDown: 0,
+        {key: "statusPermission", label: "Status", _classes: "text-center"},
+      ]
     };
   },
   created: async function () {
@@ -109,12 +79,11 @@ export default {
             this.dataBm = this.transportDataMasterBm(response.data);
           },
           (error) => {
-            this.content =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
+            this.$showMessages((error.response &&
+                error.response.data &&
+                error.response.data.message) ||
                 error.message ||
-                error.toString();
+                error.toString(), this.msg4);
           }
       );
     },
@@ -151,12 +120,11 @@ export default {
             result1 = this.transportDataUser(dataBm, response.data.data);
           },
           (error) => {
-            this.content =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
+            this.$showMessages((error.response &&
+                error.response.data &&
+                error.response.data.message) ||
                 error.message ||
-                error.toString();
+                error.toString(), this.msg4);
           }
       );
 
@@ -207,12 +175,11 @@ export default {
                 return true;
               },
               (error) => {
-                this.content =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
+                this.$showMessages((error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
                     error.message ||
-                    error.toString();
+                    error.toString(), this.msg4);
                 loader.hide();
                 return false;
               }
@@ -227,11 +194,9 @@ export default {
         }
       }
       loader.hide();
-      this.showMessages(
-          0,
-          "Xử lý hoàn tất",
-          "Thành công: " + intSuccess + ", Thất Bại: " + intDanger
-      );
+      this.$showMessages(
+          "Xử lý hoàn tất\nThành công: " + intSuccess + "\nThất Bại: " + intDanger
+          , this.msg3);
     },
 
     updateStatus: async function (accountId, active) {
@@ -240,15 +205,6 @@ export default {
           item.statusPermission = active;
         }
       });
-    },
-
-    showMessages: async function (code, header, body = "") {
-      this.messagesError = {
-        header: header,
-        body: body,
-      };
-      this.colorMsg = code == 1 ? "danger" : "success";
-      this.dismissCountDown = 5;
     },
   }
 }
