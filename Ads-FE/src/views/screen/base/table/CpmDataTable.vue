@@ -36,6 +36,15 @@
           color="info"
           >Hạ quyền</CButton
         >
+
+        <CButton
+          class="right-button"
+          @click="changePermissionClick('Delete')"
+          size="sm"
+          :disabled="isDisabelPermission"
+          color="info"
+          >Xoá</CButton
+        >
       </CButtonGroup>
     </CCardHeader>
     <CCardBody

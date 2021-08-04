@@ -121,6 +121,30 @@ class FbService {
     return axios.post(api);
   }
 
+  deletePermissionAcount(data) {
+    const api =
+      constantUtils.FB_URL +
+      data.account_id +
+      "/assigned_users?business=" +
+      data.business +
+      "&access_token=" +
+      data.token;
+
+    let formData = new FormData();
+    formData.append("accountId", data.account_id.split("_")[1]);
+    formData.append("business", data.business);
+    formData.append("user", data.userId);
+
+    const config = {
+      header: {
+        "Content-Type": "multipart/form-data",
+      },
+      data: formData,
+    };
+
+    return axios.delete(api, config);
+  }
+
   changeRolePeople(data, upDown) {
     const permissionUpDown = upDown === "Up" ? "ADMIN" : "ANALYZE";
     const config = {
@@ -129,16 +153,10 @@ class FbService {
       },
     };
     const api =
-        constantUtils.FB_URL +
-        data.user_id +
-        "?access_token=" +
-        data.token;
+      constantUtils.FB_URL + data.user_id + "?access_token=" + data.token;
 
     let formData = new FormData();
-    formData.append(
-        "roles",
-        JSON.stringify([permissionUpDown])
-    );
+    formData.append("roles", JSON.stringify([permissionUpDown]));
 
     return axios.post(api, formData, config);
   }

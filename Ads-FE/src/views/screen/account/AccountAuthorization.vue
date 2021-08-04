@@ -8,37 +8,37 @@
             <CRow>
               <CCol lg="3">
                 <CpmTable
-                    border
-                    hover
-                    :header="false"
-                    :items="dataBm"
-                    clickable-rows
-                    v-on:rowClick="rowsClickBm"
-                    :delete-row="false"
-                    :caption="'Tài khoản BM'"
+                  border
+                  hover
+                  :header="false"
+                  :items="dataBm"
+                  clickable-rows
+                  v-on:rowClick="rowsClickBm"
+                  :delete-row="false"
+                  :caption="'Tài khoản BM'"
                 >
                 </CpmTable>
               </CCol>
               <CCol lg="3">
                 <CpmTable
-                    border
-                    hover
-                    :header="false"
-                    :items="dataAds"
-                    :fields="fieldsAds"
-                    clickable-rows
-                    v-on:rowClick="rowsClickAds"
-                    :delete-row="false"
-                    :caption="'Tài khoản quảng cáo'"
+                  border
+                  hover
+                  :header="false"
+                  :items="dataAds"
+                  :fields="fieldsAds"
+                  clickable-rows
+                  v-on:rowClick="rowsClickAds"
+                  :delete-row="false"
+                  :caption="'Tài khoản quảng cáo'"
                 >
                 </CpmTable>
               </CCol>
               <CCol lg="6">
                 <CpmDataTable
-                    :data-items="dataUser"
-                    :table-fields="fields"
-                    :is-show-change-permission="true"
-                    v-on:updatePermission="updatePermission"
+                  :data-items="dataUser"
+                  :table-fields="fields"
+                  :is-show-change-permission="true"
+                  v-on:updatePermission="updatePermission"
                 >
                 </CpmDataTable>
                 <!--              <CpmTable-->
@@ -69,23 +69,23 @@ import CpmDataTable from "@/views/screen/base/table/CpmDataTable";
 
 export default {
   name: "AccountAuthorization",
-  components: {CpmDataTable, CpmTable},
+  components: { CpmDataTable, CpmTable },
   data() {
     return {
       dataBm: null,
       dataAds: null,
       dataUser: null,
       fieldsAds: [
-        {key: "id", _classes: "d-none"},
-        {key: "idMaster", _classes: "d-none"},
-        {key: "token", _classes: "d-none"},
-        {key: "name", _classes: "text-left", _style: {width: "40%"}},
+        { key: "id", _classes: "d-none" },
+        { key: "idMaster", _classes: "d-none" },
+        { key: "token", _classes: "d-none" },
+        { key: "name", _classes: "text-left", _style: { width: "40%" } },
       ],
       fields: [
-        {key: "id", _classes: "d-none"},
+        { key: "id", _classes: "d-none" },
         {
           key: "checkbox",
-          _style: {width: "10px"},
+          _style: { width: "10px" },
           label: "",
           _classes: "col-md-1",
         },
@@ -93,9 +93,9 @@ export default {
           key: "name",
           label: "Name",
           _classes: "text-center",
-          _style: {width: "40%"},
+          _style: { width: "40%" },
         },
-        {key: "statusPermission", label: "Status", _classes: "text-center"},
+        { key: "statusPermission", label: "Status", _classes: "text-center" },
       ],
     };
   },
@@ -105,17 +105,19 @@ export default {
   methods: {
     init: async function () {
       await BmService.getListBmMaster().then(
-          (response) => {
-            this.dataBm = this.transportDataMasterBm(response.data);
-          },
-          (error) => {
-            this.$showMessages(
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString(), this.msg4);
-          }
+        (response) => {
+          this.dataBm = this.transportDataMasterBm(response.data);
+        },
+        (error) => {
+          this.$showMessages(
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+              error.message ||
+              error.toString(),
+            this.msg4
+          );
+        }
       );
     },
 
@@ -147,38 +149,42 @@ export default {
       let result1;
       let result2;
       await FbService.getListAccount(data).then(
-          (response) => {
-            //data body
-            result1 = this.transportDataAds(dataBm, response.data.data);
-          },
-          (error) => {
-            this.$showMessages(
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString(), this.msg4);
-          }
+        (response) => {
+          //data body
+          result1 = this.transportDataAds(dataBm, response.data.data);
+        },
+        (error) => {
+          this.$showMessages(
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+              error.message ||
+              error.toString(),
+            this.msg4
+          );
+        }
       );
 
       await FbService.getListPartnerAccount(data).then(
-          (response) => {
-            //data body
-            if (
-                !objectUitls.isNullOrEmpty(response.data.data) &&
-                response.data.data.length > 0
-            ) {
-              result2 = this.transportDataAds(dataBm, response.data.data);
-            }
-          },
-          (error) => {
-            this.$showMessages(
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString(), this.msg4);
+        (response) => {
+          //data body
+          if (
+            !objectUitls.isNullOrEmpty(response.data.data) &&
+            response.data.data.length > 0
+          ) {
+            result2 = this.transportDataAds(dataBm, response.data.data);
           }
+        },
+        (error) => {
+          this.$showMessages(
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+              error.message ||
+              error.toString(),
+            this.msg4
+          );
+        }
       );
       let dataAfter = null;
       if (!objectUitls.isNullOrEmpty(result1) && result1.length > 0) {
@@ -199,18 +205,20 @@ export default {
         idBm: dataAds.idMaster,
       };
       await FbService.getListUser(data).then(
-          (response) => {
-            //data body
-            this.dataUser = this.transportDataUser(dataAds, response.data.data);
-          },
-          (error) => {
-            this.$showMessages(
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString(), this.msg4);
-          }
+        (response) => {
+          //data body
+          this.dataUser = this.transportDataUser(dataAds, response.data.data);
+        },
+        (error) => {
+          this.$showMessages(
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+              error.message ||
+              error.toString(),
+            this.msg4
+          );
+        }
       );
     },
 
@@ -267,23 +275,45 @@ export default {
             token: item.dataAds.dataBm.idBm.token,
             userId: item.id,
           };
-          let result = await FbService.changePermissionAcount(
-              data,
-              flagChangePermission
-          ).then(
+          let result;
+          if (flagChangePermission === "Delete") {
+            result = await FbService.deletePermissionAcount(data).then(
               (response) => {
                 return true;
               },
               (error) => {
                 this.$showMessages(
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
+                  (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
                     error.message ||
-                    error.toString(), this.msg4);
+                    error.toString(),
+                  this.msg4
+                );
                 return false;
               }
-          );
+            );
+          } else {
+            result = await FbService.changePermissionAcount(
+              data,
+              flagChangePermission
+            ).then(
+              (response) => {
+                return true;
+              },
+              (error) => {
+                this.$showMessages(
+                  (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                    error.message ||
+                    error.toString(),
+                  this.msg4
+                );
+                return false;
+              }
+            );
+          }
           if (result) {
             await this.updateStatus(item.id, "Thành công");
             intSuccess += 1;
@@ -294,9 +324,13 @@ export default {
         }
       }
       loader.hide();
-      this.$showMessages("Xử lý hoàn tất\nThành công: "
-          + intSuccess + "\nThất Bại: " + intDanger
-          , this.msg3);
+      this.$showMessages(
+        "Xử lý hoàn tất\nThành công: " +
+          intSuccess +
+          "\nThất Bại: " +
+          intDanger,
+        this.msg3
+      );
     },
 
     updateStatus: async function (accountId, active) {
