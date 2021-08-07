@@ -145,6 +145,24 @@ class FbService {
     return axios.delete(api, config);
   }
 
+  UpdateAdminOrEmp(data, upDown) {
+    const api =
+      constantUtils.FB_URL + data.userId + "?access_token=" + data.token;
+
+    const permissionUpDown = upDown === "UpAdmin" ? "ADMIN" : "EMPLOYEE";
+
+    let formData = new FormData();
+    formData.append("role", permissionUpDown);
+
+    const config = {
+      header: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+
+    return axios.post(api, formData, config);
+  }
+
   changeRolePeople(data, upDown) {
     const permissionUpDown = upDown === "Up" ? "ADMIN" : "ANALYZE";
     const config = {

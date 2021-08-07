@@ -82,12 +82,17 @@ export default {
         { key: "name", _classes: "text-left", _style: { width: "40%" } },
       ],
       fields: [
-        { key: "id", _classes: "d-none" },
         {
           key: "checkbox",
           _style: { width: "10px" },
           label: "",
           _classes: "col-md-1",
+        },
+        {
+          key: "id",
+          label: "ID Scope",
+          _classes: "text-center",
+          _style: { width: "40%" },
         },
         {
           key: "name",
@@ -275,8 +280,32 @@ export default {
             token: item.dataAds.dataBm.idBm.token,
             userId: item.id,
           };
+
           let result;
-          if (flagChangePermission === "Delete") {
+          if (
+            flagChangePermission === "UpAdmin" ||
+            flagChangePermission === "UpEmp"
+          ) {
+            result = await FbService.UpdateAdminOrEmp(
+              data,
+              flagChangePermission
+            ).then(
+              (response) => {
+                return true;
+              },
+              (error) => {
+                this.$showMessages(
+                  (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                    error.message ||
+                    error.toString(),
+                  this.msg4
+                );
+                return false;
+              }
+            );
+          } else if (flagChangePermission === "Delete") {
             result = await FbService.deletePermissionAcount(data).then(
               (response) => {
                 return true;

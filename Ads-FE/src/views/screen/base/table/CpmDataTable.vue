@@ -46,6 +46,26 @@
           >Xoá</CButton
         >
       </CButtonGroup>
+
+      <CButtonGroup v-show="isShowChangePermission" class="mx-1 d-sm-down-none">
+        <CButton
+          class="right-button"
+          @click="changePermissionClick('UpAdmin')"
+          size="sm"
+          :disabled="isDisabelPermission"
+          color="info"
+          >Chỉ Định Admin</CButton
+        >
+
+        <CButton
+          class="right-button"
+          @click="changePermissionClick('UpEmp')"
+          size="sm"
+          :disabled="isDisabelPermission"
+          color="info"
+          >Chỉ Định Nhân Viên</CButton
+        >
+      </CButtonGroup>
     </CCardHeader>
     <CCardBody
       :style="
@@ -127,8 +147,8 @@ export default {
     },
     isShowCardHeader: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   watch: {
     dataItems: function (newVal, oldVal) {

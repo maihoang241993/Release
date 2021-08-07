@@ -88,6 +88,7 @@ router.beforeEach((to, from, next) => {
         store.dispatch('auth/checkAuthen', user.accessToken).then(
             (res) => {
                 if (!res.status) {
+                    localStorage.removeItem("user");
                     next('/Login');
                 } else {
                     next()
