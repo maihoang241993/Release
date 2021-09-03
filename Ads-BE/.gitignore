@@ -8,3 +8,7 @@ dist
 *.ipr
 *.iws
 .DS_Store
+resources
+tmp
+classes
+generated
