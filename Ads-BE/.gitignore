@@ -1,0 +1,11 @@
+build
+.gradle
+.idea
+node_modules
+package-lock.json
+out
+dist
+*.iml
+*.ipr
+*.iws
+.DS_Store

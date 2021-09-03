@@ -1,0 +1,70 @@
+buildscript {
+    ext {
+        springBootVersion = '2.4.5'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.postgresql:postgresql:9.4-1206-jdbc42")
+    }
+}
+
+plugins {
+    id 'org.springframework.boot' version '2.4.5'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'war'
+}
+
+group = 'CPM'
+version = '1.0.0'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'junit:junit:4.13.1'
+
+    implementation 'org.springframework.boot:spring-boot-starter-validation:2.3.3.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // Database
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+//    runtime 'org.postgresql:postgresql:9.4-1206-jdbc42'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.20'
+
+    // Authen
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.4.5'
+
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-tomcat
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: '2.5.1'
+
+    // Files
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    //task schedule
+    testImplementation 'org.awaitility:awaitility:3.1.2'
+
+    // Session
+//    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+//    implementation 'org.springframework.session:spring-session-data-redis'
+
+    // Facebook
+    implementation group: 'com.facebook.business.sdk', name: 'facebook-java-business-sdk', version: '11.0.0'
+    implementation group: 'com.restfb', name: 'restfb', version: '3.20.0'
+
+    // https://mvnrepository.com/artifact/com.opencsv/opencsv
+    implementation group: 'com.opencsv', name: 'opencsv', version: '3.7'
+
+}
+
+test {
+    useJUnitPlatform()
+}
