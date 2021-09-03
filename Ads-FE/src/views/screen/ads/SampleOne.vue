@@ -36,7 +36,7 @@
                 <CRow>
                   <CCol lg="12">
                     <CCard>
-                      <CCardHeader> Thông tin BM</CCardHeader>
+                      <CCardHeader> Tài khoản quảng cáo</CCardHeader>
                       <CCardBody>
                         <CInput
                             label="ID"
@@ -59,23 +59,22 @@
                             plaintext
                             v-model="info.sumTable"
                         />
-                        <CInput
-                            label="Token Full Quyền (Thêm tài khoản đối tác)"
-                            size="lg"
-                            placeholder="update token all"
-                            v-model="tokenFull"
-                            ref="testFocus"
-                        >
-                          <template #append>
-                            <CButton
-                                type="submit"
-                                @click="updateTokenAll"
-                                color="primary"
-                            >Cập nhật
-                            </CButton
-                            >
-                          </template>
-                        </CInput>
+                        <!--                        <CInput-->
+                        <!--                            label="Token Full Quyền (Thêm tài khoản đối tác)"-->
+                        <!--                            size="lg"-->
+                        <!--                            placeholder="update token all"-->
+                        <!--                            v-model="tokenFull"-->
+                        <!--                            ref="testFocus"-->
+                        <!--                        >-->
+                        <template #append>
+                          <CButton
+                              type="submit"
+                              @click="updateTokenAll"
+                              color="primary"
+                          >Cập nhật
+                          </CButton
+                          >
+                        </template>
                       </CCardBody>
                       <CCardFooter>
                         <div style="float: right">
@@ -152,6 +151,8 @@ import BmService from "../../../js/services/bm/bm.service";
 import FB from "../../../js/services/facebook/fb.service";
 import * as objectUitls from "../../../js/utils/objectUtils";
 import CpmDataTable from "@/views/screen/base/table/CpmDataTable";
+import FbService from "../../../js/services/facebook/fb.service";
+import {MSG_BUS_003} from "../../../js/constantUtils";
 
 export default {
   name: "SampleOne",
@@ -237,19 +238,21 @@ export default {
       this.isShowGrid = true;
       this.dataModalGrid = null;
       const data = {
-        id: this.dataMaster.idBm.id,
-        token: this.dataMaster.idBm.tokenFull,
+        idBm: this.dataMaster.idBm.id,
+        accessToken: this.dataMaster.idBm.token,
       };
-      await FB.getAllListUser(data).then(
+
+      await BmService.getAllListUser(data).then(
           (response) => {
             this.infoModal = true;
             //data body
-            this.dataModalGrid = this.transportDataUser(item, response.data.data);
+            this.transportDataUser(item, response.data);
           },
           (error) => {
-            this.$showMessages((error.response &&
-                error.response.data &&
-                error.response.data.message) ||
+            this.$showMessages(
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
                 error.message ||
                 error.toString(), this.msg4);
           }
@@ -259,17 +262,17 @@ export default {
     transportDataUser: function (dataDetail, dataUser) {
       let _re = [];
       // data body
-      dataUser.forEach((item) => {
+      dataUser.data.forEach(data => {
         _re.push({
           dataMaster: this.dataMaster,
           dataDetail: dataDetail,
-          id: item.id,
-          name: item.name,
+          id: data.id,
+          name: data.name,
           isCheck: false,
           statusAuthen: "",
         });
       });
-      return _re;
+      this.dataModalGrid = _re;
     },
 
     openModalAdd: function () {
@@ -300,8 +303,8 @@ export default {
             },
             (error) => {
               this.$showMessages((error.response &&
-                  error.response.data &&
-                  error.response.data.message) ||
+                      error.response.data &&
+                      error.response.data.message) ||
                   error.message ||
                   error.toString(), this.msg4);
             }
@@ -319,84 +322,51 @@ export default {
         sumTable: null,
       };
       const data = {
-        id: dataMaster.idBm.id,
-        token: dataMaster.idBm.token,
+        idBm: dataMaster.idBm.id,
+        accessToken: dataMaster.idBm.token,
       };
-      let result1;
-      let result2;
-      await FB.getListAccount(data).then(
+      await BmService.getListAccount(data).then(
           (response) => {
-            //data body
-            result1 = this.transportDataDetailBm(dataMaster, response.data.data);
+            this.transportDataDetailBm(dataMaster, response.data);
           },
           (error) => {
-            this.$showMessages((error.response &&
-                error.response.data &&
-                error.response.data.message) ||
+            this.$showMessages(
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
                 error.message ||
                 error.toString(), this.msg4);
           }
       );
-
-      await FB.getListPartnerAccount(data).then(
-          (response) => {
-            //data body
-            if (
-                !objectUitls.isNullOrEmpty(response.data.data) &&
-                response.data.data.length > 0
-            ) {
-              result2 = this.transportDataDetailBm(
-                  dataMaster,
-                  response.data.data
-              );
-            }
-          },
-          (error) => {
-            this.$showMessages((error.response &&
-                error.response.data &&
-                error.response.data.message) ||
-                error.message ||
-                error.toString(), this.msg4);
-          }
-      );
-      let dataAfter = null;
-      if (!objectUitls.isNullOrEmpty(result1) && result1.length > 0) {
-        dataAfter = result1;
-      }
-      if (!objectUitls.isNullOrEmpty(result2) && result2.length > 0) {
-        result2.forEach((obj) => {
-          dataAfter.push(obj);
-        });
-      }
-      this.dataDetail = dataAfter;
-      this.info.sumTable = dataAfter == null ? "" : dataAfter.length;
     },
 
     transportDataDetailBm(dataMaster, dataDetail) {
       let _re = [];
-
       // data body
       dataDetail.forEach((item) => {
-        let status = item.account_status % 2 ? "success" : "danger";
-        _re.push({
-          isCheck: false,
-          status: status,
-          account_id: item.account_id,
-          name: item.name,
-          idbm: !objectUitls.isNullOrEmpty(item.business)
-              ? item.business.id
-              : "",
-          currency: item.currency,
-          card: this.getFundingSourceDetails(item),
-          active: "",
-        });
+        item.data.forEach(data => {
+          let status = data.account_status % 2 ? "success" : "danger";
+          _re.push({
+            isCheck: false,
+            status: status,
+            account_id: data.account_id,
+            name: data.name,
+            idbm: !objectUitls.isNullOrEmpty(data.business)
+                ? data.business.id
+                : "",
+            currency: data.currency,
+            card: this.getFundingSourceDetails(data),
+            active: "",
+          });
+        })
       });
       // data header
       this.info = {
         id: dataMaster.idBm.id,
         name: dataMaster.idBm.nameMaster,
       };
-      return _re;
+      this.dataDetail = _re;
+      this.info.sumTable = _re === [] ? "" : _re.length;
     },
 
     getFundingSourceDetails(item) {
@@ -443,67 +413,30 @@ export default {
     addBm: async function (component, accept, view) {
       if (accept === true) {
         if (view === "addBm") {
-          const result = await this.getBmFb(component);
-          if (!objectUitls.isNullOrEmpty(result)) {
-            await this.UpdateBm(result.data, component.dataModal);
-          }
+          await this.UpdateBm(component.dataModal);
+
         } else {
           await this.setShareBm(component);
         }
       }
     },
 
-    getBmFb: async function (component) {
-      let data = component.dataModal;
-      let path =
-          constantUtils.FB_URL +
-          data.id +
-          "?" +
-          constantUtils.access_token +
-          "=" +
-          data.token +
-          "&fields=" +
-          constantUtils.paramFb.verification_status +
-          "," +
-          constantUtils.paramFb.profile_picture_uri +
-          "," +
-          constantUtils.paramFb.id +
-          "," +
-          constantUtils.paramFb.name +
-          "," +
-          constantUtils.paramFb.primary_page;
-      return await axios
-          .get(path)
-          .then((res) => {
-            return res;
-          })
-          .catch((error) => {
-            this.$showMessages((error.response &&
-                error.response.data &&
-                error.response.data.message) ||
-                error.message ||
-                error.toString(), this.msg4);
-          });
-    },
-
-    UpdateBm: async function (dataResponse, modal) {
-      let data = {
+    UpdateBm: async function (modal) {
+      const data = {
+        idBm: modal.id,
         name: modal.name,
-        idbm: dataResponse.id,
-        namebm: dataResponse.name,
-        tokenbm: modal.token,
-        profile_picture_uribm: dataResponse.profile_picture_uri,
-        verification_statusbm: dataResponse.verification_status,
+        accessToken: modal.token
       };
-
       await BmService.addBmMaster(data).then(
           (response) => {
-            this.$showMessages(constantUtils.MSG_BUS_002, this.msg1)
+            response.status ?
+                this.$showMessages(constantUtils.MSG_BUS_002, this.msg1) :
+                this.$showMessages(constantUtils.MSG_BUS_003, this.msg4)
           },
           (error) => {
             this.$showMessages((error.response &&
-                error.response.data &&
-                error.response.data.message) ||
+                    error.response.data &&
+                    error.response.data.message) ||
                 error.message ||
                 error.toString(), this.msg4);
           }
@@ -528,6 +461,7 @@ export default {
             acting_brand_id: this.dataMaster.idBm.id,
             business: dataShare.id,
           };
+	  
           result = await FB.addPartner(data).then(
               (response) => {
                 return true;
@@ -566,8 +500,8 @@ export default {
             },
             (error) => {
               this.$showMessages((error.response &&
-                  error.response.data &&
-                  error.response.data.message) ||
+                      error.response.data &&
+                      error.response.data.message) ||
                   error.message ||
                   error.toString(), this.msg4);
             }

@@ -44,7 +44,7 @@
     <CDropdownItem>
       <CIcon name="cil-user" /> Profile
     </CDropdownItem>
-    <CDropdownItem>
+    <CDropdownItem @click="settingClick">
       <CIcon name="cil-settings" /> Settings
     </CDropdownItem>
 <!--    <CDropdownItem>-->
@@ -77,6 +77,10 @@ export default {
     logoutClick() {
       this.$store.dispatch('auth/logout');
       this.$router.push("/");
+    },
+
+    settingClick() {
+      this.$router.push("/setting");
     }
   }
 }

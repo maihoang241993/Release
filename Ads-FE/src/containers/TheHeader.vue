@@ -49,7 +49,7 @@
         </CHeaderNavLink>
       </CHeaderNavItem>
       <CHeaderNavItem class="d-md-down-none mx-2">
-        <span>{{ username }}</span>
+        <span>Tài khoản: {{ username }}</span>
       </CHeaderNavItem>
       <TheHeaderDropdownAccnt />
     </CHeaderNav>
@@ -70,7 +70,7 @@ export default {
     };
   },
   created() {
-    this.username = JSON.parse(localStorage.getItem("user")).username;
+    this.username = JSON.parse(localStorage.getItem("user")).username.toUpperCase().trim();
   },
   components: {
     TheHeaderDropdownAccnt,

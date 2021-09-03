@@ -8,19 +8,19 @@ export const FB_URL = "https://graph.facebook.com/v11.0/";
 
 //Facebook
 export const paramFb = {
-  verification_status: "verification_status",
-  profile_picture_uri: "profile_picture_uri",
-  id: "id",
-  name: "name",
-  primary_page: "primary_page",
+    verification_status: "verification_status",
+    profile_picture_uri: "profile_picture_uri",
+    id: "id",
+    name: "name",
+    primary_page: "primary_page",
 };
 export const access_token = "access_token";
 
 export const TYPE_MSG = {
-  SUCCESS: "success",
-  INFO: "info",
-  WARNING: "warning",
-  ERROR: "error",
+    SUCCESS: "success",
+    INFO: "info",
+    WARNING: "warning",
+    ERROR: "error",
 }
 
 // Messages code
@@ -33,6 +33,7 @@ export const MSG_BUS_001 = "Đăng nhập thất bại.\nVui lòng kiểm tra l�
 export const MSG_BUS_002 = "Thực hiện thành công."
 export const MSG_BUS_003 = "Thực hiện thất bại"
 export const MSG_BUS_004 = "Xử lý hoàn tất."
+export const MSG_BUS_005 = "Cập nhật thành công"
 
 
 

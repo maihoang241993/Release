@@ -121,10 +121,10 @@ export default {
       this.setTileModal("Tài khoản quảng cáo");
 
       const data = {
-        id: item.dataObject.idbm,
-        token: item.dataObject.tokenbm,
+        idBm: item.dataObject.idbm,
+        accessToken: item.dataObject.tokenbm,
       };
-      await FbService.getListAccount(data).then(
+      await BmService.getListAccount(data).then(
           (response) => {
             //data body
             if (

@@ -1,21 +1,30 @@
 import screenHelper from "../common/screenHelper.js";
 
 class UserService {
-  getListBmMaster() {
-    return screenHelper.submitServer("post", "bm/loadBm");
-  }
 
-  addBmMaster(data) {
-    return screenHelper.submitServer("post", "bm/updateBm", data);
-  }
+    getListAccount(data) {
+        return screenHelper.submitServer("post", "fb/getListAccount", data);
+    }
 
-  deleleBmMaster(data) {
-    return screenHelper.submitServer("post", "bm/deleteBm", data);
-  }
+    getAllListUser(data) {
+        return screenHelper.submitServer("post", "fb/getAllListUser", data);
+    }
 
-  updateTokenAll(data) {
-    return screenHelper.submitServer("post", "bm/updateTokenBm", data);
-  }
+    getListBmMaster() {
+        return screenHelper.submitServer("post", "bm/loadBm");
+    }
+
+    addBmMaster(data) {
+        return screenHelper.submitServer("post", "bm/updateBm", data);
+    }
+
+    deleleBmMaster(data) {
+        return screenHelper.submitServer("post", "bm/deleteBm", data);
+    }
+
+    updateTokenAll(data) {
+        return screenHelper.submitServer("post", "bm/updateTokenBm", data);
+    }
 }
 
 export default new UserService();

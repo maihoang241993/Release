@@ -69,12 +69,14 @@ const AccountAuthorization = () => import('@/views/screen/account/AccountAuthori
 const AddPartner = () => import('@/views/screen/partner/AddPartner')
 const Cookies = () => import('@/views/screen/cookies/Cookies')
 const PeopleAuthorization = () => import('@/views/screen/account/PeopleAuthorization.vue')
+const Setting = () => import('@/views/screen/settings/Setting.vue')
 
 
 Vue.use(VueAxios, axios)
 Vue.use(Router)
 
 export const router = new Router({
+    mode: 'history',
     linkActiveClass: 'active',
     scrollBehavior: () => ({y: 0}),
     routes: configRoutes()
@@ -155,6 +157,11 @@ function configRoutes() {
                     path: '/cookies',
                     name: 'cookies',
                     component: Cookies
+                },
+                {
+                    path: '/setting',
+                    name: 'setting',
+                    component: Setting
                 },
                 // {
                 //   path: 'workingspace',

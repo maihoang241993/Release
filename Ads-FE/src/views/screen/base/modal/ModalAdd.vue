@@ -324,10 +324,14 @@ export default {
 
     updateAccountPartner: async function (item) {
       const data = {
-        account_id: "act_" + item.dataDetail.account_id,
-        business: item.dataMaster.idBm.id,
-        token: item.dataMaster.idBm.token,
-        userId: item.id,
+        accessToken: item.dataMaster.idBm.token,
+        connection: "act_" + item.dataDetail.account_id +
+            "/assigned_users?business="
+            + item.dataMaster.idBm.id,
+        parameter: {
+          user: item.id,
+          tasks: "MANAGE"
+        }
       };
       let result = await FB.updateAuthenAccountPartner(data).then(
           (response) => {
