@@ -134,8 +134,10 @@ public class FbServiceImpl extends FacebookCommon implements FbService {
             APIContext context = new APIContext(bmInfoRequest.getAccessToken());
             Business business = new Business(bmInfoRequest.getIdBm(), context);
             String field = "[\"account_id\",\"disable_reason\",\"name\",\"currency\",\"account_status\",\"business\",\"funding_source_details\"]";
-            APINodeList<AdAccount> listOwenAdAccount = business.getOwnedAdAccounts().requestField(field).execute();
-            APINodeList<AdAccount> listClientAdAccounts = business.getClientAdAccounts().requestField(field).execute();
+            Map<String, Object> stringObjectMap = new HashMap<>();
+            stringObjectMap.put("limit", "1000");
+            APINodeList<AdAccount> listOwenAdAccount = business.getOwnedAdAccounts().requestField(field).execute(stringObjectMap);
+            APINodeList<AdAccount> listClientAdAccounts = business.getClientAdAccounts().requestField(field).execute(stringObjectMap);
 
             ObjectMapper jsonMP1 = new ObjectMapper();
             Object objectMapper = jsonMP1.readValue(listOwenAdAccount.getRawResponse(), Object.class);
