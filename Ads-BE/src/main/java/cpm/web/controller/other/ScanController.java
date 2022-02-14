@@ -34,8 +34,8 @@ public class ScanController extends ServicesController {
         boolean isStatus = true;
         if (!data.getSample1().equals("") && handleFiles.WriteCsv(data)) {
             SettingTelegramDto settingTelegramDto = new SettingTelegramDto();
-            settingTelegramDto.setToken("1943636042:AAEp3Swt7sfM81iG1BMka70_AjgtrM2mmmk");
-            settingTelegramDto.setId("-586922770");
+            settingTelegramDto.setToken("5241973596:AAHQgyTwe-Dd0god65UQIBUa423_UsFffDU");
+            settingTelegramDto.setId("-744836779");
             String outputMsg = String.format(
                     "Thời gian: %s\n" +
                             "ID: %s\n" +

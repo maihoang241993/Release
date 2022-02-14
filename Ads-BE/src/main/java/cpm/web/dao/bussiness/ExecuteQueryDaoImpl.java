@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +47,7 @@ public class ExecuteQueryDaoImpl implements ExecuteQueryDao {
     }
 
     @Override
+    @Transactional
     public boolean executeUpdate(String sql, SqlParameterSource parram) {
         return this.updateData(sql, parram);
     }
